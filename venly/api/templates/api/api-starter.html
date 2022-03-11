@@ -1,0 +1,15 @@
+<h1>API Starter</h1>
+<form action="{% url 'submit_test' %}" method="POST">
+{% csrf_token %}
+  <label for="url">URL:</label><br>
+  <input type="text" id="url" name="url" placeholder="Put your link here"><br><br>
+  <label for="gtype">Grant Type:</label><br>
+  <input type="text" id="gtipe" name="gtipe" placeholder="client_credential"><br><br>
+  <label for="Cid">Client Id:</label><br>
+  <input type="text" id="Cid" name="Cid" placeholder="Your Id"><br><br>
+  <label for="Csecret">Client Secret:</label><br>
+  <input type="text" id="Csecret" name="Csecret" placeholder="Your Secret"><br><br>
+<button type="submit" name='submit_test'>Result</button>
+</form>
+
+<!--<button type="submit" onclick="location.href='{% url 'submit_test' %}'" name='submit_test'>Result</button>-->

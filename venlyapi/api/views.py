@@ -45,19 +45,29 @@ def getprofile(request):
     return render(request, 'api/getprofile.html', context)
 
 
-def createwallet(request):
+def createwalletoption(request):
     #token = getTokens(HttpResponse)
 
     if request.method == 'POST':
         answer = str(request.POST['walletcreation'])
         if answer == "yes":
             print(answer)
-            return render(request, 'api/walletcreation.html')
+            return render(request, 'api/putwalletid.html')
         else:
             print(answer) 
-            return render(request, 'api/putwalletid.html')   
+            return render(request, 'api/walletcreation.html')   
 
 
+def walletcreation(request):
+    token = getTokens(HttpResponse)
+
+    if request.method == 'POST':
+        desc = request.POST['desc']
+        secrettype = request.POST['secrettype'],
+        wallettype = request.POST['wallettype'],
+        pincode = request.POST['pincode'],
+    else:
+        return render(request,'api/walletcreation.html')
 
 
 

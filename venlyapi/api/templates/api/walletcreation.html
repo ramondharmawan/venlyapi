@@ -1,7 +1,8 @@
 <h1>Wallet Creation</h1>
 
 <form action="" method="POST">
-    <label for="url">Description:</label><br>
+    {% csrf_token %}
+    <label for="desc">Description:</label><br>
     <input type="text" id="desc" name="desc" placeholder="My first unrecoverable wallet"><br><br>
 
     <label for="secrettype"></label>
@@ -17,12 +18,12 @@
         <option value="TRON">TRON</option>
         <option value="VECHAIN">VECHAIN</option>
         <option value="NEO">NEO/option>
-    </select>
+    </select> <br><br>
 
     <label for="wallettype"></label>
     <select name="wallettype" id="wallettypeid">
-        <option value="WHITE_LABEL">Wallet that can be recovered in case the pin is lost</option>
-        <option value="UNRECOVERABLE_WHITE_LABEL">Wallet that can not be recovered if the pin is lost</option>
+        <option value="WHITE_LABEL">White Label</option>
+        <option value="UNRECOVERABLE_WHITE_LABEL">Unrecoverable White Label</option>
     </select>
     <p>White label = Wallet that can be recovered in case the pin is lost</p>
     <p>Uncoverable = Wallet that can not be recovered if the pin is lost</p>
@@ -30,5 +31,5 @@
     <label for="pincode">Pincode:</label><br>
     <input type="text" id="pincode" name="pincode" placeholder="12345"><br><br>
 
-    <button type="submit">Result</button>
+    <button type="submit">Create Wallet</button>
 </form>

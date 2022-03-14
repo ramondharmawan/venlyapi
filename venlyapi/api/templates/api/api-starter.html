@@ -1,5 +1,5 @@
 <h1>API Starter</h1>
-<form action="{% url 'walletcreate' %}" method="POST">
+<form action="{% url 'getprofile' %}" method="POST">
 {% csrf_token %}
   <label for="url">URL:</label><br>
   <input type="text" id="url" name="url" placeholder="Put your link here"><br><br>
@@ -9,7 +9,7 @@
   <input type="text" id="Cid" name="Cid" placeholder="Your Id"><br><br>
   <label for="Csecret">Client Secret:</label><br>
   <input type="text" id="Csecret" name="Csecret" placeholder="Your Secret"><br><br>
-<button type="submit" name='walletcreate'>Result</button>
+<button type="submit" name='getprofile'>Result</button>
 </form>
 
 

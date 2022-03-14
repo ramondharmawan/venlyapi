@@ -1,0 +1,21 @@
+
+<h1>Your Profile info</h1>
+<p>Hello <span style="color:red;font-weight:bold;">{{nickname}}</span>, <br>this is your account info:</p>
+<ul> 
+    <li>Username : {{username}}</li>
+    <li>Email: {{email}}</li>
+</ul>
+
+
+<form method="post" action="{% url 'createwallet' %}">
+    {% csrf_token %}
+    <label for="wallet">Do you already have Walet:</label>
+
+    <select name="walletcreation" id="walletid">
+    <option value="no">No</option>
+    <option value="yes">Yes</option>
+    </select>
+
+    <button type="submit">Result</button>
+</form>
+

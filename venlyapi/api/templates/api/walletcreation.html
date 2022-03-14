@@ -1,1 +1,34 @@
 <h1>Wallet Creation</h1>
+
+<form action="" method="POST">
+    <label for="url">Description:</label><br>
+    <input type="text" id="desc" name="desc" placeholder="My first unrecoverable wallet"><br><br>
+
+    <label for="secrettype"></label>
+    <select name="secrettype" id="secrettypeid">
+        <option value="ETHEREUM">ETHEREUM</option>
+        <option value="BSC">BSC</option>
+        <option value="MATIC">MATIC</option>
+        <option value="AVAC">AVAC</option>
+        <option value="AETERNITY">AETERNITY</option>
+        <option value="BITCOIN">BITCOIN</option>
+        <option value="GOCHAIN">GOCHAIN</option>
+        <option value="LITECOIN">LITECOIN</option>
+        <option value="TRON">TRON</option>
+        <option value="VECHAIN">VECHAIN</option>
+        <option value="NEO">NEO/option>
+    </select>
+
+    <label for="wallettype"></label>
+    <select name="wallettype" id="wallettypeid">
+        <option value="WHITE_LABEL">Wallet that can be recovered in case the pin is lost</option>
+        <option value="UNRECOVERABLE_WHITE_LABEL">Wallet that can not be recovered if the pin is lost</option>
+    </select>
+    <p>White label = Wallet that can be recovered in case the pin is lost</p>
+    <p>Uncoverable = Wallet that can not be recovered if the pin is lost</p>
+
+    <label for="pincode">Pincode:</label><br>
+    <input type="text" id="pincode" name="pincode" placeholder="12345"><br><br>
+
+    <button type="submit">Result</button>
+</form>

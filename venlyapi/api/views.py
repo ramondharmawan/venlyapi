@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import requests
 from . module.getToken import getTokens
-import smtplib, ssl
+import yagmail
 
 
 # Create your views here.
@@ -10,7 +10,7 @@ import smtplib, ssl
 
 def index(request):
     context = {}
-    return render(request, 'api/api-starter.html', context)
+    return render(request, 'api/login.html', context)
     #return HttpResponse("Hello, world. You're at the polls index.")
 
 
@@ -72,6 +72,22 @@ def walletcreation(request):
     else:
         return render(request,'api/walletcreation.html')
 
+    #try:
+        #initializing the server connection
+    #    yag = yagmail.SMTP(user='ramon.dharmawan@prototype.global', password='Yes2021#')
+        #sending the email
+    #    contents = [
+    #   "hello {}".format(username),
+    #    "This is your pin code: {}, please save it somewhere save".format(pincode)
+    #    ]
+    #    yag.send(to='{}'.format(email), subject='Successfully Creating Wallet', contents)
+    #    return render(request, 'api/deploy-nft-contract.html') 
+    #except:
+    #    print("Error, email was not sent")   
+    #    return render(request, 'api/walletcreation.html') 
+
+
+
 def deployNft(request):
     token = getTokens(HttpResponse)
 
@@ -81,7 +97,6 @@ def deployNft(request):
         image = request.POST['imageUrl']
         chainNft = request.POST['chainNft']
         ownerNft = request.POST['walletaddress']
-
 
     url = "https://api-business-staging.arkane.network/api/apps/dummy-applicationid-abc123/contracts"
 
@@ -105,7 +120,7 @@ def deployNft(request):
     })
     headers = {
     'Content-Type': 'application/json',
-    'Authorization": "Bearer {}'.format(token)
+    'Authorization': 'Bearer {}'.format(token)
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)

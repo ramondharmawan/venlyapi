@@ -2,8 +2,15 @@
 
 <form action="" method="POST">
     {% csrf_token %}
+
+    <label for="usernamewall">Username: *</label><br>
+    <input type="text" id="usernameid" name="username" placeholder="heyho" required><br><br>
+
+    <label for="emailwall">Email Address: *</label><br>
+    <input type="text" id="emailid" name="email" placeholder="roenald@gmail.com" required><br><br>
+
     <label for="desc">Description:</label><br>
-    <input type="text" id="desc" name="desc" placeholder="My first unrecoverable wallet"><br><br>
+    <input type="text" id="descid" name="desc" placeholder="My first unrecoverable wallet"><br><br>
 
     <label for="secrettype"></label>
     <select name="secrettype" id="secrettypeid">
@@ -25,11 +32,11 @@
         <option value="WHITE_LABEL">White Label</option>
         <option value="UNRECOVERABLE_WHITE_LABEL">Unrecoverable White Label</option>
     </select>
-    <p>White label = Wallet that can be recovered in case the pin is lost</p>
-    <p>Uncoverable = Wallet that can not be recovered if the pin is lost</p>
+    <p><i>White label = Wallet that can be recovered in case the pin is lost</i></p>
+    <p><i>Uncoverable = Wallet that can not be recovered if the pin is lost</i></p>
 
-    <label for="pincode">Pincode:</label><br>
-    <input type="text" id="pincode" name="pincode" placeholder="12345"><br><br>
+    <label for="pincode">Pincode: *</label><br>
+    <input type="text" id="pincode" name="pincode" placeholder="12345" required><br><br>
 
     <button type="submit">Create Wallet</button>
 </form>

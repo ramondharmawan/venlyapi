@@ -1,5 +1,5 @@
 <!doctype html>
-{% load static %}
+{% load static %}  
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -19,19 +19,22 @@
             <div class="row">
                 <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6" style="margin-top: 30%;">
                     <div class="form-container">
-                        <form class="form-horizontal" method="POST" action="{%url 'index'%}">
-                            {% csrf_token %} 
-                            <h3 class="title">User Login</h3>
+                        <form class="form-horizontal" action="{%url 'processSignup'%}" method="POST">
+                            {% csrf_token %}
+                            <h6 class="title">Create User</h6>
                             <div class="form-group">
                                 <span class="input-icon"><i class="fa fa-user"></i></span>
                                 <input class="form-control" type="email" name="username" placeholder="Email">
                             </div>
                             <div class="form-group">
                                 <span class="input-icon"><i class="fa fa-lock"></i></span>
-                                <input class="form-control" type="password" name="password" placeholder="Password">
+                                <input class="form-control" type="password1" name="password1" placeholder="Password">
                             </div>
-                            <span class="forgot-pass"><a href="#">Lost password?</a></span>
-                            <button class="btn signin">Login</button>
+                            <div class="form-group">
+                                <span class="input-icon"><i class="fa fa-lock"></i></span>
+                                <input class="form-control" type="confirmpassword" name="password2" placeholder="Confirm Password">
+                            </div>
+                            <button class="btn signin" value="signup" type="submit">Signup</button>
                         </form>
                         {% if error %}
                         {{ error }}

@@ -34,7 +34,7 @@ body{
     line-height: 48px;
     height: 45px;
     width: 40px;
-    vertical-align: top;
+    /*vertical-align: top;*/
     display: inline-block;
 }
 .form-horizontal .form-control{
@@ -98,6 +98,11 @@ body{
     color: #555;
     text-decoration: underline;
 }
+
+.center {
+    margin-top:30%;
+}
+
 @media only screen and (max-width:379px){
     .form-container .form-horizontal{
         width: 100%;

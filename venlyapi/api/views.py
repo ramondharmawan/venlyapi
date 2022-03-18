@@ -1,18 +1,50 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import requests
 from . module.getToken import getTokens
 import yagmail
+from django.contrib.auth.models import User
+from django.contrib import auth
 
 
 # Create your views here.
 
 
 def index(request):
-    context = {}
-    return render(request, 'api/login.html', context)
+    if request.method == 'POST':
+        user = auth.authenticate(username=request.POST['username'],password = request.POST['password'])
+        if user is not None:
+            auth.login(request,user)
+            return redirect('getprofile')
+        else:
+            return render (request,'api/login.html', {'error':'Username or password is incorrect!'})
+    else:
+        return render(request,'api/login.html')
     #return HttpResponse("Hello, world. You're at the polls index.")
 
+def signup(request):
+    context = {}
+    return render(request, 'api/create-user.html', context)
+
+def processSignup(request):
+    if request.method == "POST":
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                User.objects.get(username = request.POST['username'])
+                return render (request,'api/create-user.html', {'error':'Username is already taken!'})
+            except User.DoesNotExist:
+                user = User.objects.create_user(request.POST['username'],password=request.POST['password1'])
+                auth.login(request,user)
+                return redirect('getprofile')
+        else:
+            return render (request,'api/create-user.html', {'error':'Password does not match!'})
+    else:
+        return render(request,'api/create-user.html')
+
+def logout(request):
+    if request.method == 'POST':
+        auth.logout(request)
+    return redirect('index')
 
 def getprofile(request):
 
@@ -85,6 +117,7 @@ def walletcreation(request):
     #except:
     #    print("Error, email was not sent")   
     #    return render(request, 'api/walletcreation.html') 
+
 
 
 

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import requests
 from . module.getToken import getTokens
+from . module.getProfile import getprofile
 import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -15,7 +16,7 @@ def index(request):
         user = auth.authenticate(username=request.POST['username'],password = request.POST['password'])
         if user is not None:
             auth.login(request,user)
-            return redirect('getprofile')
+            return redirect('dashboard')
         else:
             return render (request,'api/login.html', {'error':'Username or password is incorrect!'})
     else:
@@ -26,6 +27,24 @@ def signup(request):
     context = {}
     return render(request, 'api/create-user.html', context)
 
+def dashboard(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+        profile = getprofile(HttpResponse)
+
+        context = {
+            'user': current_user,
+            "user_id": profile["userId"],
+            "nickname": profile["nickname"],
+            "bearer":token
+        }
+        return render(request, 'api/dashboard.html', context)
+    else:
+        return render(request, 'api/login.html')
+    
+
 def processSignup(request):
     if request.method == "POST":
         if request.POST['password1'] == request.POST['password2']:
@@ -35,47 +54,16 @@ def processSignup(request):
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST['username'],password=request.POST['password1'])
                 auth.login(request,user)
-                return redirect('getprofile')
+                return redirect('index')
         else:
             return render (request,'api/create-user.html', {'error':'Password does not match!'})
     else:
         return render(request,'api/create-user.html')
 
 def logout(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         auth.logout(request)
     return redirect('index')
-
-def getprofile(request):
-
-    token = getTokens(HttpResponse)
-    #bearer = "Bearer {}".format(token)
-
-    url = "https://api-staging.arkane.network/api/profile"
-
-    payload={}
-    headers = {
-         "Authorization": "Bearer {}".format(token)
-    }
-    #headers["Accept"] = "application/json"
-
-    response = requests.request("GET", url, headers=headers, data=payload)
-
-    #print(response.text)
-    res = response.json()
-
-    context = {
-       "user_id": res["result"]["userId"],
-       "username" : res["result"]["username"],
-       "email" : res["result"]["email"],
-       "nickname": res["result"]["nickname"]
-    }
-
-    print(res["result"]["userId"])
-    #print(res["result"])
-    #print(bearer)
-
-    return render(request, 'api/getprofile.html', context)
 
 
 def createwalletoption(request):

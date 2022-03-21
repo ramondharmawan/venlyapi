@@ -1,0 +1,381 @@
+{% load static %}
+
+<!--<div class="bg-light py-5 auth-logged-in">
+    <div class="container">
+        <div class="row"> -->
+{% block createwallet %}
+
+            <div class="col-md-12 mb-4">
+                <div class="mb-5 row" id="wallet-management">
+                    <h4 class="mb-3 col-12">Wallets</h4>
+                    <div class="col-12 col-md-6">
+                        <button type="button" id="link-wallets" class="btn btn-outline-primary">
+                            Link Wallets
+                        </button>
+                        <button type="button" id="claim-wallets" class="btn btn-outline-primary">
+                            Claim Wallets
+                        </button>
+                    </div>
+                </div>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="nav-BITCOIN-tab" data-toggle="tab" href=".tab-pane#tab-BITCOIN" role="tab" aria-controls="tab-BITCOIN"
+                           aria-selected="false">Bitcoin</a>
+                        <a class="nav-item nav-link" id="nav-ETHEREUM-tab" data-toggle="tab" href=".tab-pane#tab-ETHEREUM" role="tab" aria-controls="tab-ETHEREUM"
+                           aria-selected="true">Ethereum</a>
+                        <a class="nav-item nav-link" id="nav-MATIC-tab" data-toggle="tab" href=".tab-pane#tab-MATIC" role="tab" aria-controls="tab-MATIC"
+                           aria-selected="true">Matic</a>
+                        <a class="nav-item nav-link" id="nav-VECHAIN-tab" data-toggle="tab" href=".tab-pane#tab-VECHAIN" role="tab" aria-controls="tab-VECHAIN"
+                           aria-selected="false">VeChain</a>
+                        <a class="nav-item nav-link" id="nav-LITECOIN-tab" data-toggle="tab"
+                           href=".tab-pane#tab-LITECOIN" role="tab" aria-controls="tab-LITECOIN"
+                           aria-selected="false">Litecoin</a>
+                        <a class="nav-item nav-link" id="nav-GOCHAIN-tab" data-toggle="tab" href=".tab-pane#tab-GOCHAIN"
+                           role="tab" aria-controls="tab-GOCHAIN"
+                           aria-selected="false">GoChain</a>
+                        <a class="nav-item nav-link" id="nav-TRON-tab" data-toggle="tab" href=".tab-pane#tab-TRON"
+                           role="tab" aria-controls="tab-TRON"
+                           aria-selected="false">Tron</a>
+                        <a class="nav-item nav-link" id="nav-AETERNITY-tab" data-toggle="tab"
+                           href=".tab-pane#tab-AETERNITY" role="tab" aria-controls="tab-AETERNITY"
+                           aria-selected="false">æternity</a>
+                        <a class="nav-item nav-link" id="nav-NEO-tab" data-toggle="tab" href=".tab-pane#tab-NEO"
+                           role="tab" aria-controls="tab-NEO"
+                           aria-selected="false">Neo</a>
+                        <a class="nav-item nav-link" id="nav-BSC-tab" data-toggle="tab" href=".tab-pane#tab-BSC"
+                           role="tab" aria-controls="tab-BSC"
+                           aria-selected="true">Binance SC</a>
+                        <a class="nav-item nav-link" id="nav-AVAC-tab" data-toggle="tab" href=".tab-pane#tab-AVAC"
+                           role="tab" aria-controls="tab-AVAC"
+                           aria-selected="true">Avalanche C</a>
+                        <a class="nav-item nav-link" id="nav-HEDERA-tab" data-toggle="tab" href=".tab-pane#tab-HEDERA" role="tab" aria-controls="tab-HEDERA"
+                           aria-selected="true">Hedera</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-ETHEREUM" data-chain="ETHEREUM" role="tabpanel" aria-labelledby="nav-ETHEREUM-tab">
+                        <button type="button" data-chain="ETHEREUM" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="ETHEREUM" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-eip712" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="import-wallet" data-chain="ETHEREUM" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-MATIC" data-chain="MATIC" role="tabpanel" aria-labelledby="nav-MATIC-tab">
+                        <button type="button" data-chain="MATIC" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="MATIC" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-eip712" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="read-contract" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="import-wallet" data-chain="MATIC" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-GOCHAIN" data-chain="GOCHAIN" role="tabpanel" aria-labelledby="nav-GOCHAIN-tab">
+                        <button type="button" data-chain="GOCHAIN" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="GOCHAIN" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-5 col-lg-6">
+                                <form data-form="sign" data-chain="GOCHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="GOCHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-5 col-lg-6">
+                                <form data-form="execute" data-chain="GOCHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="GOCHAIN" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-VECHAIN" data-chain="VECHAIN" role="tabpanel" aria-labelledby="nav-VECHAIN-tab">
+                        <button type="button" data-chain="VECHAIN" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="VECHAIN" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="VECHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="VECHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="VECHAIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="VECHAIN" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-TRON" data-chain="TRON" role="tabpanel" aria-labelledby="nav-TRON-tab">
+                        <button type="button" data-chain="TRON" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="TRON" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="TRON" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="TRON" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="TRON" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="TRON" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="TRON" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-BITCOIN" data-chain="BITCOIN" role="tabpanel" aria-labelledby="nav-BITCOIN-tab">
+                        <button type="button" data-chain="BITCOIN" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="BITCOIN" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="BITCOIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="BITCOIN" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-LITECOIN" data-chain="LITECOIN" role="tabpanel" aria-labelledby="nav-LITECOIN-tab">
+                        <button type="button" data-chain="LITECOIN" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="LITECOIN" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="LITECOIN" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="LITECOIN" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-AETERNITY" data-chain="AETERNITY" role="tabpanel" aria-labelledby="nav-AETERNITY-tab">
+                        <button type="button" data-chain="AETERNITY" class="btn btn-outline-primary get-wallets mb-3">
+                            Get Wallets
+                        </button>
+                        <button type="button" data-chain="AETERNITY" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="AETERNITY" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="AETERNITY" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="AETERNITY" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="AETERNITY" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-NEO" data-chain="NEO" role="tabpanel" aria-labelledby="nav-NEO-tab">
+                        <button type="button" data-chain="NEO" class="btn btn-outline-primary get-wallets mb-3">
+                            Get Wallets
+                        </button>
+                        <button type="button" data-chain="NEO" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-gas" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="NEO" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-BSC" data-chain="BSC" role="tabpanel"
+                         aria-labelledby="nav-BSC-tab">
+                        <button type="button" data-chain="BSC" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="BSC" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-eip712" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="import-wallet" data-chain="BSC" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-AVAC" data-chain="AVAC" role="tabpanel"
+                         aria-labelledby="nav-AVAC-tab">
+                        <button type="button" data-chain="AVAC" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="AVAC" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-raw" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-eip712" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign-message" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute-contract" data-chain="AVAC" class="card bg-light"></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-HEDERA" data-chain="HEDERA" role="tabpanel"
+                         aria-labelledby="nav-HEDERA-tab">
+                        <button type="button" data-chain="HEDERA" class="btn btn-outline-primary get-wallets mb-3">
+                            Refresh Wallets
+                        </button>
+                        <button type="button" data-chain="HEDERA" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>
+
+                        <div class="row">
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="sign" data-chain="HEDERA" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="execute" data-chain="HEDERA" class="card bg-light"></form>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <form data-form="associate-tokens" data-chain="HEDERA" class="card bg-light"></form>
+                            </div>
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="sign-eip712" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="sign-message" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="execute-contract" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+<!--
+        </div>
+    </div>
+</div>
+-->

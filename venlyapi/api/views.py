@@ -1,12 +1,15 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-import requests
+import requests, json
 from . module.getToken import getTokens
 from . module.getProfile import getprofile
+from . module.getChain import getchain
+from . module.getWalletClient import clientdata
 import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
+from . models import CustomerInfo
 
 
 # Create your views here.
@@ -34,13 +37,20 @@ def dashboard(request):
 
         token = getTokens(HttpResponse)
         profile = getprofile(HttpResponse)
+        chain = getchain(HttpResponse)
+        dataclient = clientdata(HttpResponse)
+
+        print(dataclient)
 
         context = {
             'user': current_user,
             "user_id": profile["userId"],
             "nickname": profile["nickname"],
-            "bearer":token
+            "bearer":token,
+            "chaintoken": chain,
+            "datacust":dataclient
         }
+
         return render(request, 'api/dashboard.html', context)
     else:
         return render(request, 'api/login.html')
@@ -95,8 +105,42 @@ def walletcreation(request):
         secrettype = request.POST['secrettype']
         wallettype = request.POST['wallettype']
         pincode = request.POST['pincode']
+
+        url = "https://api-staging.arkane.network/api/wallets"
+
+        payload = json.dumps({
+        "pincode": pincode,
+        "description": desc,
+        "identifier": "type=unrecoverable",
+        "secretType": secrettype,
+        "walletType": wallettype
+        })
+        headers = {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+        res = response.json()
+
+        walletid = res["result"]["id"]
+        walletaddress = res["result"]["address"]
+        creating = res["result"]["createdAt"]
+
+        CustomerInfo.objects.create(
+            name=username,
+            email=email,
+            description=desc,
+            secrettype=secrettype,
+            wallettype=wallettype,
+            pincode=pincode,
+            walletid=walletid,
+            walletaddress=walletaddress,
+        )
+
+        return HttpResponseRedirect("dashboard")
     else:
-        return render(request,'api/walletcreation.html')
+        return HttpResponseRedirect("dashboard")
 
     #try:
         #initializing the server connection

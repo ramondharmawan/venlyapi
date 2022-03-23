@@ -22,6 +22,25 @@
     <link rel="stylesheet" href="{% static '/css/mymainstyle.css' %}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" />
+    <!--start hardcode style -->
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      </style>
+    <!-- end hardcode-->
   </head>
   <body>
     <div class="container-scroller">
@@ -29,7 +48,7 @@
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="navbar-brand-wrapper d-flex align-items-center">
           <a class="navbar-brand brand-logo" href="index.html">
-            <img src="{% static '/images/Logomes.png' %}" alt="logo" class="logo-dark" height="20%" width="50%"/>
+            <img src="{% static '/images/logo-letter-01.svg' %}" alt="logo" class="logo-dark"/>
           </a>
           <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static '/images/logo-mini.svg' %}" alt="logo" /></a>
         </div>
@@ -102,9 +121,6 @@
                     <h4 class="card-title">NFT Profile</h4>
                     <div class="aligner-wrapper">
 
-
-
-
                         <div>
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label" for="auth-username">User</label>
@@ -149,31 +165,23 @@
                     </div>
                     <div class="d-sm-flex flex-wrap">
 
-                      <form action="" method="POST">
+                      <form method="POST" action="{% url 'walletcreation' %}">
                         {% csrf_token %}
                     
                         <label for="usernamewall">Username: *</label><br>
                         <input type="text" id="usernameid" name="username" placeholder="heyho" required><br><br>
                     
                         <label for="emailwall">Email Address: *</label><br>
-                        <input type="text" id="emailid" name="email" placeholder="roenald@gmail.com" required><br><br>
+                        <input type="text" id="emailid" name="email" placeholder="yourmail@gmail.com" required><br><br>
                     
                         <label for="desc">Description:</label><br>
                         <input type="text" id="descid" name="desc" placeholder="My first unrecoverable wallet"><br><br>
                     
                         <label for="secrettype"></label>
                         <select name="secrettype" id="secrettypeid">
-                            <option value="ETHEREUM">ETHEREUM</option>
-                            <option value="BSC">BSC</option>
-                            <option value="MATIC">MATIC</option>
-                            <option value="AVAC">AVAC</option>
-                            <option value="AETERNITY">AETERNITY</option>
-                            <option value="BITCOIN">BITCOIN</option>
-                            <option value="GOCHAIN">GOCHAIN</option>
-                            <option value="LITECOIN">LITECOIN</option>
-                            <option value="TRON">TRON</option>
-                            <option value="VECHAIN">VECHAIN</option>
-                            <option value="NEO">NEO/option>
+                          {% for chain in chaintoken %}
+                            <option value="{{chain}}">{{chain}}</option>
+                          {% endfor %}
                         </select> <br><br>
                     
                         <label for="wallettype"></label>

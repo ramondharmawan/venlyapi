@@ -11,4 +11,5 @@ urlpatterns = [
     path('processSignup', views.processSignup, name='processSignup'),
     path('logout', views.logout, name='logout'),
     path('dashboard', views.dashboard, name='dashboard'),
+    path('walletcreation', views.walletcreation, name='walletcreation'),
 ]

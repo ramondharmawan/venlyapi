@@ -63,7 +63,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "ETHEREUM" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-MATIC" data-chain="MATIC" role="tabpanel" aria-labelledby="nav-MATIC-tab">
@@ -72,7 +89,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "MATIC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-GOCHAIN" data-chain="GOCHAIN" role="tabpanel" aria-labelledby="nav-GOCHAIN-tab">
@@ -81,7 +115,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "GOCHAIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-VECHAIN" data-chain="VECHAIN" role="tabpanel" aria-labelledby="nav-VECHAIN-tab">
@@ -90,7 +141,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "VECHAIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-TRON" data-chain="TRON" role="tabpanel" aria-labelledby="nav-TRON-tab">
@@ -99,7 +167,24 @@
                         </button>-->
 
                         <div class="row">
-                        
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "TRON" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-BITCOIN" data-chain="BITCOIN" role="tabpanel" aria-labelledby="nav-BITCOIN-tab">
@@ -108,14 +193,24 @@
                         </button>-->
 
                         <div class="row">
-                            <ul>
-                                <li>Wallet 1</li>
-                                <li>Wallet 2</li>
-                            </ul>
-                        </div>
-
-                        <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "BITCOIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-LITECOIN" data-chain="LITECOIN" role="tabpanel" aria-labelledby="nav-LITECOIN-tab">
@@ -125,7 +220,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Wallet Type</th>
+                                <th>Wallet ID</th>
+                                <th>Wallet Address</th>
+                            </tr>
+                            {% for item in datacust %}
+                            <tr>
+                                {% if item.secrettype == "LITECOIN" %}
+                                <td>{{item.name}}</td>
+                                <td>{{item.wallettype}}</td>
+                                <td>{{item.walletid}}</td>
+                                <td>{{item.walletaddress}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-AETERNITY" data-chain="AETERNITY" role="tabpanel" aria-labelledby="nav-AETERNITY-tab">
@@ -135,7 +247,24 @@
                         </button>-->
 
                         <div class="row">
-                           
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "AETERNITY" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-NEO" data-chain="NEO" role="tabpanel" aria-labelledby="nav-NEO-tab">
@@ -145,7 +274,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "NEO" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-BSC" data-chain="BSC" role="tabpanel"
@@ -156,7 +302,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "BSC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-AVAC" data-chain="AVAC" role="tabpanel"
@@ -167,7 +330,24 @@
                         </button>-->
 
                         <div class="row">
-                            
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "AVAC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                         </div>
                     </div>
                     <div class="tab-pane fade p-4 bg-white border" id="tab-HEDERA" id="myBtn12" data-chain="HEDERA" role="tabpanel"
@@ -178,6 +358,24 @@
                         </button>-->
 
                         <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "HEDERA" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
                             
 <!--                            <div class="mb-3 col-lg-6">-->
 <!--                                <form data-form="sign-eip712" data-chain="HEDERA" class="card bg-light"></form>-->

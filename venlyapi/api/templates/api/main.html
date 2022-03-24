@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Prototype NFT Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static '/vendors/simple-line-icons/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{% static '/vendors/daterangepicker/daterangepicker.css' %}">
+    <link rel="stylesheet" href="{% static '/vendors/chartist/chartist.min.css' %}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/mymainstyle.css' %}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" />
+    <!--start hardcode style
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      </style>
+    end hardcode-->
+  </head>
+  <body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+          <div class="navbar-brand-wrapper d-flex align-items-center">
+            <a class="navbar-brand brand-logo" href="index.html">
+              <img src="{% static '/images/logo-letter-01.svg' %}" alt="logo" class="logo-dark"/>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{% static '/images/logo-mini.svg' %}" alt="logo" /></a>
+          </div>
+          <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+            <h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome Prototype NFT dashboard!</h5>
+            <ul class="navbar-nav navbar-nav-right ml-auto">
+              <form class="search-form d-none d-md-block" action="#">
+                <i class="icon-magnifier"></i>
+                <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+              </form>
+              <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                  <img class="img-xs rounded-circle ml-2" src="{% static 'images/faces/face8.jpg' %}" alt="Profile image"> <span class="font-weight-normal"> {{user}} </span></a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                  <div class="dropdown-header text-center">
+                    <img class="img-md rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="Profile image">
+                    <p class="mb-1 mt-3">{{user}}</p>
+                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                  </div>
+                  <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+                  <a href="{% url 'logout' %}" class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
+                </div>
+              </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+              <span class="icon-menu"></span>
+            </button>
+          </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+          <!-- partial:partials/_sidebar.html -->
+          <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <!-- start sidebar menu -->
+              <li class="nav-item nav-profile">
+                <a href="#" class="nav-link">
+                  <div class="profile-image">
+                    <img class="img-xs rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="profile image">
+                    <div class="dot-indicator bg-success"></div>
+                  </div>
+                  <div class="text-wrapper">
+                    <p class="profile-name">{{user}}</p>
+                    <p class="designation">Administrator</p>
+                  </div>
+                  <div class="icon-container">
+                    <i class="icon-bubbles"></i>
+                    <div class="dot-indicator bg-danger"></div>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item nav-category">
+                <span class="nav-link">Dashboard</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">
+                  <span class="menu-title">Dashboard</span>
+                  <i class="icon-screen-desktop menu-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item nav-category"><span class="nav-link">NFT</span></li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'deploynft' %}">
+                  <span class="menu-title">Deploy NFT</span>
+                  <i class="icon-globe menu-icon"></i>
+                </a>
+              </li>
+              <!-- end sidebar menu -->
+            </ul>
+          </nav>
+
+    {% block maincontent %}
+
+    {% endblock maincontent %}
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Prototype Global 2022<br>
+              Distributed By <a href="https://www.prototype.fashion" target="_blank">NFT API</a></span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Visit <a href="https://www.prototype.fashion" target="_blank">Our Web Pages</a> from prototype.fashion      
+            </span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->     
+    {% include '../addhtml/modal.html' %}
+    <!-- plugins:js -->
+    <script src="{% static '/vendors/js/vendor.bundle.base.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{% static '/vendors/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static '/vendors/moment/moment.min.js' %}"></script>
+    <script src="{% static '/vendors/daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static '/vendors/chartist/chartist.min.js' %}"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{% static 'js/off-canvas.js' %}"></script>
+    <script src="{% static 'js/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="{% static '/js/dashboard.js' %}"></script>
+    <script src="{% static '/js/mymainjs.js' %}"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>

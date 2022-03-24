@@ -23,3 +23,18 @@ class CustomerInfo(models.Model):
 
     def __str__(self):
         return self.name
+
+class ImageContractNft(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='imagesNFT/%Y/%m/%d/')
+    chain = models.CharField(max_length=100, null=True, blank=True)
+    wallet = models.CharField(max_length=100, null=True, blank=True)
+    site = models.CharField(max_length=100, null=True, blank=True)
+    twitter = models.CharField(max_length=100, null=True, blank=True)
+    linkedin = models.CharField(max_length=100, null=True, blank=True)
+    desc = models.CharField(max_length=100, null=True, blank=True)
+    applicationId = models.CharField(max_length=100, null=True, blank=True)
+    contract_id = models.IntegerField()
+
+    def __str__(self):
+        return self.title

@@ -1,0 +1,96 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> NFT Deployment </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">NFT</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Deploy NFT</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+        
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Deploy a new NFT contract</h4>
+              <p class="card-description"> Deploying a new collection or brand to host NFTs under </p>
+              <!--Form Start-->
+              <form class="forms-sample" method="POST" action="{% url 'deploynftprocess' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInputName1">Contract Name</label>
+                  <input type="text" name="deployname" class="form-control" id="exampleInputName1" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleSelectChain">Chain Name</label>
+                  <select class="form-control" id="exampleSelectChain" name="deploychain">
+                    {% for i in nftchainlist %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                   <label for="exampleInputWalletAddress">Wallet Addresss</label>
+                   <input type="text" name="deployaddress" class="form-control" id="exampleInputWalletAddress" placeholder="0xF4Cc6E6c585d23585d5F08BDaEE9b85aB658fa95">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputAppId">Application Id</label>
+                    <input type="text" name="appid" class="form-control" id="exampleInputAppId" placeholder="3b613051-4e10-479d-a75a-ee355541e5a0">
+                 </div>
+                <div class="form-group">
+                  <label>File upload</label>
+                  <input type="file" class="form-control" name="upload" accept="image/*" id="formFile">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputWeb1">Your Site</label>
+                  <input type="text" name="deploysite" class="form-control" id="exampleInputWeb1" placeholder="https://yourweb.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputTwitter1">Twitter link</label>
+                  <input type="text" name="deploytwitter" class="form-control" id="exampleInputTwitter1" placeholder="https://twitter.com/your-twitter">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputLinkedin1">Linkedin Link</label>
+                  <input type="text" name="deploylinkedin" class="form-control" id="exampleInputLinkedin1" placeholder="https://www.linkedin.com/company/your-linkedin">
+                </div>
+                <div class="form-group">
+                  <label for="exampleTextarea1">Description</label>
+                  <textarea class="form-control" name="deploydesc" id="exampleTextarea1" rows="4" placeholder="Example contract created using the NFT"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+              </form>
+               <!--Form End-->
+
+               <!-- test upload -->
+               <!--See File Uploaded-->
+               <h2 class="my-4">Movie Poster</h2>
+                <div class="row">
+                    {% if file_url %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+                    <img src="{{ file_url }}" class="img-fluid">
+                    <br>
+                    <a class="btn btn-dark my-4" href="/">Return to Homepage</a>
+                    {% else %}
+                    <p>No movies posters added.</p>
+                    {% endif %}
+                </div>
+
+               <!-- end test upload -->
+
+            </div>
+          </div>
+        </div>
+        
+      </div> <!-- this is end div class row -->
+    </div>
+    <!-- content-wrapper ends -->
+
+{% endblock maincontent %}

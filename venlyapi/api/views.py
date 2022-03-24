@@ -4,12 +4,14 @@ import requests, json
 from . module.getToken import getTokens
 from . module.getProfile import getprofile
 from . module.getChain import getchain
+from . module.getNftChain import getnftchain
 from . module.getWalletClient import clientdata
 import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
-from . models import CustomerInfo
+from . models import CustomerInfo, ImageContractNft
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -115,6 +117,7 @@ def walletcreation(request):
         "secretType": secrettype,
         "walletType": wallettype
         })
+
         headers = {
         'Content-Type': 'application/json',
         "Authorization": "Bearer {}".format(token)
@@ -159,43 +162,137 @@ def walletcreation(request):
 
 
 
-def deployNft(request):
+def deploynft(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        nftchain = getnftchain(HttpResponse)
+
+        context = {
+            "nftchainlist": nftchain,
+        }
+
+        return render(request, 'api/deploynft.html', context)
+    else:
+        return render(request, 'api/login.html')
+
+    #token = getTokens(HttpResponse)
+
+    #if request.method == 'POST':
+    #    aplid = request.POST['applicationId']
+    #   descnft = request.POST['descriptionNft']
+    #    image = request.POST['imageUrl']
+    #    chainNft = request.POST['chainNft']
+    #    ownerNft = request.POST['walletaddress']
+
+    #url = "https://api-business-staging.arkane.network/api/apps/dummy-applicationid-abc123/contracts"
+
+    #payload = json.dumps({
+    #"name": "Venly",
+    #"description": "Example contract created using the VENLY NFT API",
+    #"image": "https://gblobscdn.gitbook.com/spaces%2F-MB9NX0aClLh4Gx_kawF%2Favatar-1623151896040.png?alt=media",
+    #"externalUrl": "https://venly.io",
+    #"media": [
+    #    {
+    #    "type": "twitter",
+    #    "value": "https://twitter.com/Venly_io"
+    #    },
+    #    {
+    #    "type": "linkedin",
+    #    "value": "https://www.linkedin.com/company/venly-io"
+    #    }
+    #],
+    #"chain": "MATIC",
+    #"owner": "0xF4Cc6E6c585d23585d5F08BDaEE9b85aB658fa95"
+    #})
+    #headers = {
+    #'Content-Type': 'application/json',
+    #'Authorization': 'Bearer {}'.format(token)
+    #}
+
+    #response = requests.request("POST", url, headers=headers, data=payload)
+
+    #print(response.text)
+
+
+def deploynftprocess(request):
     token = getTokens(HttpResponse)
 
     if request.method == 'POST':
-        aplid = request.POST['applicationId']
-        descnft = request.POST['descriptionNft']
-        image = request.POST['imageUrl']
-        chainNft = request.POST['chainNft']
-        ownerNft = request.POST['walletaddress']
+        contract_name = request.POST['deployname']
+        contract_desc = request.POST['deploydesc']
+        appsid = request.POST['appid']
+        chain_name = request.POST['deploychain']
+        wallet_address = request.POST['deployaddress']
+        site = request.POST['deploysite']
+        twitter = request.POST['deploytwitter']
+        linkedin = request.POST['deploylinkedin']
+        #if request.FILES['upload']:
+        uploads = request.FILES['upload']
+        fss = FileSystemStorage()
+        file = fss.save(uploads.name, uploads)
+        file_url = fss.url(file)    
+   
 
-    url = "https://api-business-staging.arkane.network/api/apps/dummy-applicationid-abc123/contracts"
+        ImageContractNft.objects.create(
+            title = contract_name,
+            image = uploads,
+            chain = chain_name,
+            wallet = wallet_address,
+            site = site,
+            twitter = twitter,
+            linkedin = linkedin,
+            desc = contract_desc,
+            applicationId = appsid
+        )
 
-    payload = json.dumps({
-    "name": "Venly",
-    "description": "Example contract created using the VENLY NFT API",
-    "image": "https://gblobscdn.gitbook.com/spaces%2F-MB9NX0aClLh4Gx_kawF%2Favatar-1623151896040.png?alt=media",
-    "externalUrl": "https://venly.io",
-    "media": [
-        {
-        "type": "twitter",
-        "value": "https://twitter.com/Venly_io"
-        },
-        {
-        "type": "linkedin",
-        "value": "https://www.linkedin.com/company/venly-io"
+        les = ImageContractNft.objects.filter(title = request.POST['deployname'])
+        for item in les:
+            url_image = item.image
+            print (url_image)
+
+        url = "https://api-business-staging.arkane.network/api/apps/{}/contracts".format(appsid)
+
+        payload = json.dumps({
+        "name": "{}".format(contract_name),
+        "description": "{}".format(contract_desc),
+        "image": "{}".format(url_image),
+        "externalUrl": "{}".format(site),
+        "media": [
+            {
+            "type": "twitter",
+            "value": "{}".format(twitter)
+            },
+            {
+            "type": "linkedin",
+            "value": "{}".format(linkedin)
+            }
+        ],
+        "chain": "{}".format(chain_name),
+        "owner": "{}".format(wallet_address)
+        })
+
+        headers = {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer {}".format(token)
         }
-    ],
-    "chain": "MATIC",
-    "owner": "0xF4Cc6E6c585d23585d5F08BDaEE9b85aB658fa95"
-    })
-    headers = {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer {}'.format(token)
-    }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=payload)
 
-    print(response.text)
+        res = response.json()
+
+        #locations =
+        print(res)
+        print(res['id'])
+
+        
+        return HttpResponseRedirect('deploynft', {'file_url': file_url})   
+    return HttpResponseRedirect('deploynft')
 
 
+def nftcontractlist(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        return render(request, 'api/nftcontractlist.html')
+    else:
+        return render(request, 'api/login.html')

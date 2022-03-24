@@ -12,4 +12,7 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('walletcreation', views.walletcreation, name='walletcreation'),
+    path('deploynft', views.deploynft, name='deploynft'),
+    path('deploynftprocess', views.deploynftprocess, name='deploynftprocess'),
+    path('nftcontractlist', views.nftcontractlist, name='nftcontractlist'),
 ]

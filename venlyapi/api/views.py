@@ -251,48 +251,84 @@ def deploynftprocess(request):
             url_image = item.image
             print (url_image)
 
-        url = "https://api-business-staging.arkane.network/api/apps/{}/contracts".format(appsid)
+        try:
+            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts".format(appsid)
 
-        payload = json.dumps({
-        "name": "{}".format(contract_name),
-        "description": "{}".format(contract_desc),
-        "image": "{}".format(url_image),
-        "externalUrl": "{}".format(site),
-        "media": [
-            {
-            "type": "twitter",
-            "value": "{}".format(twitter)
-            },
-            {
-            "type": "linkedin",
-            "value": "{}".format(linkedin)
+            payload = json.dumps({
+            "name": "{}".format(contract_name),
+            "description": "{}".format(contract_desc),
+            "image": "{}".format(url_image),
+            "externalUrl": "{}".format(site),
+            "media": [
+                {
+                "type": "twitter",
+                "value": "{}".format(twitter)
+                },
+                {
+                "type": "linkedin",
+                "value": "{}".format(linkedin)
+                }
+            ],
+            "chain": "{}".format(chain_name),
+            "owner": "{}".format(wallet_address)
+            })
+
+            headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
             }
-        ],
-        "chain": "{}".format(chain_name),
-        "owner": "{}".format(wallet_address)
-        })
 
-        headers = {
-        'Content-Type': 'application/json',
-        "Authorization": "Bearer {}".format(token)
-        }
+            response = requests.request("POST", url, headers=headers, data=payload)
 
-        response = requests.request("POST", url, headers=headers, data=payload)
+            res = response.json()
 
-        res = response.json()
+            print(res)
 
-        #locations =
-        print(res)
-        print(res['id'])
+        except:
+            #return render(request,'api/deploynft.html', {'error':'Something is wrong'})
+            if res['status'] == '500':
+                return HttpResponseRedirect('dashboard')
+            else:
+                return HttpResponseRedirect('')
+        else:
+            #punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 
-        
-        return HttpResponseRedirect('deploynft', {'file_url': file_url})   
+            print(res)
+            contracts_id = res['id'],
+            hash1 = res['transactionHash'],
+            symbol = res['symbol']
+
+            #no_punct_id = ""
+            #for char in contracts_id:
+            #    if char not in punctuations:
+            #        no_punct_id = no_punct_id + char
+
+            ImageContractNft.objects.create(
+                hash = hash1,
+            )
+
+            #locations =
+            #print(no_punct_id)
+            print(hash1)
+            print(contract_name)
+            #print(symbol)
+            return HttpResponseRedirect('deploynft', {'file_url': file_url}) 
+          
     return HttpResponseRedirect('deploynft')
 
 
 def nftcontractlist(request):
     if request.user.is_authenticated:
         current_user = request.user
+
+        response = ImageContractNft.objects.all()
+        customer = CustomerInfo.objects.all()
+
+        #all_name = response['title']
+
+        print(response)
+
+
         return render(request, 'api/nftcontractlist.html')
     else:
         return render(request, 'api/login.html')

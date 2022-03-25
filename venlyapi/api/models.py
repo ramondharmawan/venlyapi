@@ -34,7 +34,10 @@ class ImageContractNft(models.Model):
     linkedin = models.CharField(max_length=100, null=True, blank=True)
     desc = models.CharField(max_length=100, null=True, blank=True)
     applicationId = models.CharField(max_length=100, null=True, blank=True)
-    contract_id = models.IntegerField()
+    contracts_id = models.CharField(max_length=100,null=True, blank=True)
+    hash = models.CharField(max_length=100, null=True, blank=True)
+    symbol = models.CharField(max_length=100, null=True, blank=True)
+    
 
     def __str__(self):
         return self.title

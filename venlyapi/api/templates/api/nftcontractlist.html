@@ -33,14 +33,16 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% for i in contractlist %}
                     <tr class="table-info">
                       <td> 1 </td>
-                      <td> Herman Beck </td>
-                      <td> Photoshop </td>
-                      <td> $ 77.99 </td>
-                      <td> May 15, 2015 </td>
+                      <td> {{i.owner_name}} </td>
+                      <td> {{i.contracts_id}} </td>
+                      <td> {{i.symbol}}</td>
+                      <td> {{i.hash}} </td>
                       <td> See More </td>
                     </tr>
+                    {% endfor %}
                     <!--
                     <tr class="table-warning">
                       <td> 2 </td>

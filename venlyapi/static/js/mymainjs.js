@@ -25,3 +25,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+//window.onbeforeunload = function(){
+//  document.getElementsByClassName("loading")[0].style.display = "block";
+//}

@@ -25,6 +25,7 @@ class CustomerInfo(models.Model):
         return self.name
 
 class ImageContractNft(models.Model):
+    owner_name = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='imagesNFT/%Y/%m/%d/')
     chain = models.CharField(max_length=100, null=True, blank=True)

@@ -41,8 +41,30 @@
       }
       </style>
     end hardcode-->
+    <style>
+      .loading {
+    align-items: center;
+    background: #FFF;
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.2s linear;
+    width: 100%;
+    z-index: 9999;
+    opacity: 1;
+    transform: opacity 1s linear;
+  }
+    </style>
   </head>
   <body>
+
+    <div class="loading">
+      <img src="{% static '/images/logo_preload.gif' %}" alt="Loading..." />
+    </div>
+
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -111,10 +133,16 @@
               </li>
               <li class="nav-item nav-category"><span class="nav-link">NFT</span></li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'deploynft' %}">
-                  <span class="menu-title">Deploy NFT</span>
-                  <i class="icon-globe menu-icon"></i>
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                  <span class="menu-title">NFT Contracts</span>
+                  <i class="icon-layers menu-icon"></i>
                 </a>
+                <div class="collapse" id="ui-basic">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'deploynft' %}">Deploy Contract</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'nftcontractlist' %}">Contract Lists</a></li>
+                  </ul>
+                </div>
               </li>
               <!-- end sidebar menu -->
             </ul>
@@ -140,6 +168,7 @@
     </div>
     <!-- container-scroller -->     
     {% include '../addhtml/modal.html' %}
+  
     <!-- plugins:js -->
     <script src="{% static '/vendors/js/vendor.bundle.base.js' %}"></script>
     <!-- endinject -->
@@ -157,5 +186,10 @@
     <script src="{% static '/js/dashboard.js' %}"></script>
     <script src="{% static '/js/mymainjs.js' %}"></script>
     <!-- End custom js for this page -->
+    <script>
+      window.onbeforeunload = function(){
+        document.getElementsByClassName("loading")[0].style.display = "flex";
+      }
+    </script>
   </body>
 </html>

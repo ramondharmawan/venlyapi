@@ -219,6 +219,9 @@ def deploynftprocess(request):
     token = getTokens(HttpResponse)
 
     if request.method == 'POST':
+        #ImageContractNft.objects.get(title = request.POST['deployname'])
+        #return render (request,'api/deploynft.html', {'error':'Username is already taken!'})
+
         contract_name = request.POST['deployname']
         contract_desc = request.POST['deploydesc']
         appsid = request.POST['appid']
@@ -291,27 +294,21 @@ def deploynftprocess(request):
             else:
                 return HttpResponseRedirect('')
         else:
-            #punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+            response = ImageContractNft.objects.all()
+            customer = CustomerInfo.objects.all()
 
-            print(res)
-            contracts_id = res['id'],
-            hash1 = res['transactionHash'],
-            symbol = res['symbol']
+            for i in response:
+                wallet_address = i.wallet
+                contract_list_name = CustomerInfo.objects.get(walletaddress = wallet_address)
 
-            #no_punct_id = ""
-            #for char in contracts_id:
-            #    if char not in punctuations:
-            #        no_punct_id = no_punct_id + char
+            print(contract_list_name)
 
-            ImageContractNft.objects.create(
-                hash = hash1,
-            )
-
-            #locations =
-            #print(no_punct_id)
-            print(hash1)
-            print(contract_name)
-            #print(symbol)
+            ImageContractNft.objects.filter(title = request.POST['deployname']).update(
+                contracts_id = res['id'],
+                hash = res['transactionHash'],
+                symbol = res['symbol'],
+                owner_name = str(contract_list_name)
+            )  
             return HttpResponseRedirect('deploynft', {'file_url': file_url}) 
           
     return HttpResponseRedirect('deploynft')
@@ -322,13 +319,13 @@ def nftcontractlist(request):
         current_user = request.user
 
         response = ImageContractNft.objects.all()
-        customer = CustomerInfo.objects.all()
+        
 
-        #all_name = response['title']
+        context = {
+            'contractlist':response
+        }
 
-        print(response)
 
-
-        return render(request, 'api/nftcontractlist.html')
+        return render(request, 'api/nftcontractlist.html', context)
     else:
         return render(request, 'api/login.html')

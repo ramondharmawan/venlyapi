@@ -42,3 +42,26 @@ class ImageContractNft(models.Model):
 
     def __str__(self):
         return self.title
+
+class TokenTypeNft(models.Model):
+    name_token = models.CharField(max_length=100, null=True, blank=True)
+    token_image = models.ImageField(upload_to='ttImages/%Y/%m/%d/')
+    contract_id_token = models.CharField(max_length=100,null=True, blank=True)
+    appsid_token = models.CharField(max_length=100, null=True, blank=True)
+    site_url = models.CharField(max_length=100, null=True, blank=True)
+    token_type_att = models.CharField(max_length=100, null=True, blank=True)
+    token_name_att = models.CharField(max_length=100, null=True, blank=True)
+    token_value_att = models.CharField(max_length=100, null=True, blank=True)
+    token_description = models.CharField(max_length=100, null=True, blank=True)
+    token_bg = models.CharField(max_length=100, null=True, blank=True)
+    token_type = models.CharField(max_length=100, null=True, blank=True)
+    token_hash = models.CharField(max_length=100, null=True, blank=True)
+    storage_url = models.CharField(max_length=100, null=True, blank=True)
+    type_storage = models.CharField(max_length=100, null=True, blank=True)
+    thumbnail_url = models.CharField(max_length=100, null=True, blank=True)
+    preview_url = models.CharField(max_length=100, null=True, blank=True)
+    supply = models.CharField(max_length=100, null=True, blank=True)
+    token_owner = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name_token

@@ -144,6 +144,18 @@
                   </ul>
                 </div>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                  <span class="menu-title">Token Type</span>
+                  <i class="icon-globe menu-icon"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'createtokentype' %}">Create Token Type</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'tokentypelists' %}">Token Type Lists</a></li>
+                  </ul>
+                </div>
+              </li>
               <!-- end sidebar menu -->
             </ul>
           </nav>

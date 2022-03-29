@@ -1,0 +1,101 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Token Type Creation </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Token Type Creation</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create NFT Token Type</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <p>
+                {% if error %}
+                  {{ error }}
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Create Token Type</h4>
+              <p class="card-description"> Get Your Token Type ID </p>
+              <!--Form Start-->
+              <form class="forms-sample" method="POST" action="{% url 'createtokentypeprocess' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInputName1">Token Name</label>
+                  <input type="text" name="tokenname" class="form-control" id="exampleInputName1" placeholder="Your Name">
+                </div>
+                <div class="form-group">
+                   <label for="exampleInputContarctId">Contract ID</label>
+                   <input type="text" name="tokencontractid" class="form-control" id="exampleInputContarctId" placeholder="3776">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputAppId">Application ID</label>
+                    <input type="text" name="tokenappid" class="form-control" id="exampleInputAppId" placeholder="3b613051-4e10-479d-a75a-ee355541e5a0">
+                 </div>
+                <div class="form-group">
+                  <label>File upload</label>
+                  <input type="file" class="form-control" name="token-upload-img" accept="image/*" id="formFile">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputWeb1">External URL</label>
+                  <input type="text" name="tokenexternalurl" class="form-control" id="exampleInputExternalUrl" placeholder="https://en.wikipedia.org/wiki/Space_Chickens_in_Space">
+                </div>
+                <div class="form-group col-2">
+                  <label for="favcolor">Background</label>
+                  <input type="color" name="tokenbgcolor" class="form-control" id="favcolor" value="#ff0000">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputAttribute">ATTRIBUTE</label>
+                  <div class="col-12">
+                    <label for="exampleAttributeType">Type</label>
+                    <select class="form-control" id="exampleSelectTypeAttribute" name="att-type-token">
+                        <option value="property">Property</option>
+                        <option value="stat">Stat</option>
+                        <option value="boost">Boost</option>
+                        <option value="system">System</option>
+                      </select>
+                  </div>
+                  <br>
+                  <div class="col-12">
+                    <label for="exampleAttributeName">Name</label>
+                    <input type="text" name="att-name-token" class="form-control" id="exampleInputNameAttribute" placeholder="talent">
+                  </div>
+                  <br>
+                  <div class="col-12">
+                    <label for="exampleAttributeType">Value</label>
+                    <input type="text" name="att-value-token" class="form-control" id="exampleInputValueAttribute" placeholder="leadership">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleTextarea1">Description</label>
+                  <textarea class="form-control" name="tokendesc" id="exampleTextarea1" rows="4" placeholder="Example Token created using the NFT"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              </form>
+               <!--Form End-->
+
+            </div>
+          </div>
+        </div>
+        
+      </div> <!-- this is end div class row -->
+    </div>
+    <!-- content-wrapper ends -->
+
+{% endblock maincontent %}

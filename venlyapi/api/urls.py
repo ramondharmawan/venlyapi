@@ -15,4 +15,7 @@ urlpatterns = [
     path('deploynft', views.deploynft, name='deploynft'),
     path('deploynftprocess', views.deploynftprocess, name='deploynftprocess'),
     path('nftcontractlist', views.nftcontractlist, name='nftcontractlist'),
+    path('createtokentype', views.createtokentype, name='createtokentype'),
+    path('createtokentypeprocess', views.createtokentypeprocess, name='createtokentypeprocess'),
+    path('tokentypelists', views.tokentypelists, name='tokentypelists'),
 ]

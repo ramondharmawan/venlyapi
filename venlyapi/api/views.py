@@ -10,7 +10,7 @@ import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
-from . models import CustomerInfo, ImageContractNft
+from . models import CustomerInfo, ImageContractNft, TokenTypeNft
 from django.core.files.storage import FileSystemStorage
 
 
@@ -294,10 +294,10 @@ def deploynftprocess(request):
             else:
                 return HttpResponseRedirect('')
         else:
-            response = ImageContractNft.objects.all()
+            responsex = ImageContractNft.objects.all()
             customer = CustomerInfo.objects.all()
 
-            for i in response:
+            for i in responsex:
                 wallet_address = i.wallet
                 contract_list_name = CustomerInfo.objects.get(walletaddress = wallet_address)
 
@@ -329,3 +329,129 @@ def nftcontractlist(request):
         return render(request, 'api/nftcontractlist.html', context)
     else:
         return render(request, 'api/login.html')
+
+
+def createtokentype(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        return render(request, 'api/createtokentype.html')
+    else:
+        return render(request, 'api/login.html')
+
+def createtokentypeprocess(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        if request.method == 'POST':
+            token_name = request.POST['tokenname']
+            token_contract_id = request.POST['tokencontractid']
+            token_appsid = request.POST['tokenappid']
+            external_url = request.POST['tokenexternalurl']
+            background = request.POST['tokenbgcolor']
+            att_type_token = request.POST['att-type-token']
+            att_name_token = request.POST['att-name-token']
+            att_value_token = request.POST['att-value-token']
+            token_desc = request.POST['tokendesc']
+            uploads = request.FILES['token-upload-img']
+            fss = FileSystemStorage()
+            file = fss.save(uploads.name, uploads)
+            file1_url = fss.url(file)    
+
+            TokenTypeNft.objects.create(
+            name_token = token_name,
+            token_image = uploads,
+            contract_id_token = token_contract_id,
+            appsid_token = token_appsid,
+            site_url = external_url,
+            token_type_att = att_type_token,
+            token_name_att = att_name_token,
+            token_value_att = att_value_token,
+            token_description = token_desc,
+            token_bg = background
+            )
+
+            print(background)
+            print(att_type_token)
+
+            les = TokenTypeNft.objects.filter(name_token = request.POST['tokenname'])
+            for item in les:
+                token_url_image = item.token_image
+                print(token_url_image)
+
+        try:
+            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/token-types".format(token_appsid,token_contract_id)
+
+            payload = json.dumps({
+            "name": "{}".format(token_name),
+            "description": "{}".format(token_desc),
+            "image": "{}".format(token_url_image),
+            "backgroundColor": "{}".format(background),
+            "externalUrl": "{}".format(external_url),
+            "attributes": [
+                {
+                "type": "{}".format(att_type_token),
+                "name": "{}".format(att_name_token),
+                "value": "{}".format(att_value_token)
+                },
+            ]
+            })
+            headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+            }
+
+            response = requests.request("POST", url, headers=headers, data=payload)
+
+            resp = response.json()
+
+            print(resp)
+
+        except:
+            #if resp['status'] == '500':
+            print(resp)
+            return HttpResponseRedirect('dashboard')
+            #else:
+            #    return HttpResponseRedirect('')
+        else:
+            responsed = TokenTypeNft.objects.all()
+
+            owner_token_name = ImageContractNft.objects.get(contracts_id = token_contract_id)
+            name_value = owner_token_name.owner_name
+            print(name_value)
+
+            TokenTypeNft.objects.filter(name_token = request.POST['tokenname']).update(
+                token_type = resp['id'],
+                token_hash = resp['transactionHash'],
+                storage_url = resp['storage']['location'],
+                type_storage = resp['storage']['type'],
+                thumbnail_url = resp['imageThumbnail'],
+                preview_url = resp['imagePreview'],
+                supply = resp['currentSupply'],
+                token_owner = name_value
+                )
+            return HttpResponseRedirect('createtokentype', {'file_url': file1_url}) 
+
+    else:
+        return render(request, 'api/login.html')
+    
+def tokentypelists(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        responses = TokenTypeNft.objects.all()
+        
+        new_res = len(responses)
+        print(new_res)
+
+        context = {
+            'tokentypelists':responses,
+            'number':new_res
+        }
+
+
+        return render(request, 'api/tokentypelists.html',context)
+    else:
+        return render(request, 'api/login.html')
+    

@@ -12,7 +12,13 @@
                   <div class="card-body">
                     <h4 class="card-title">NFT Profile</h4>
                     <div class="aligner-wrapper">
-
+                      <!-- start error message -->
+                        <p>
+                          {% if error %}
+                            {{ error }}
+                          {% endif %}
+                        </p>
+                      <!-- end error message -->
                         <div>
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label" for="auth-username">User</label>
@@ -115,16 +121,16 @@
                   </div>
                   <div class="d-md-flex row m-0 quick-action-btns" role="group" aria-label="Quick action buttons">
                     <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
-                      <button type="button" onClick="opener.location='{{deploynft}}'" class="btn px-0"> <i class="icon-user mr-2"></i> Deploy NFT</button>
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/deploynft';" class="btn px-0"> <i class="icon-user mr-2"></i> Deploy NFT</button>
                     </div>
                     <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
-                      <button type="button" class="btn px-0"><i class="icon-docs mr-2"></i> Create Token</button>
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/createtokentype';" class="btn px-0"><i class="icon-docs mr-2"></i> Create Token</button>
                     </div>
                     <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
-                      <button type="button" class="btn px-0"><i class="icon-folder mr-2"></i> Create Non-fungible Token</button>
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/mintnft';" class="btn px-0"><i class="icon-folder mr-2"></i> Create Non-fungible Token</button>
                     </div>
                     <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
-                      <button type="button" class="btn px-0"><i class="icon-book-open mr-2"></i>Mint NFT</button>
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/mintnft';" class="btn px-0"><i class="icon-book-open mr-2"></i>Mint NFT</button>
                     </div>
                   </div>
                 </div>
@@ -147,26 +153,29 @@
                         <thead>
                           <tr>
                             <th class="font-weight-bold">Client Name</th>
-                            <th class="font-weight-bold">Amount</th>
-                            <th class="font-weight-bold">Gateway</th>
+                            <th class="font-weight-bold">Blockchain</th>
+                            <th class="font-weight-bold">Wallet Type</th>
+                            <th class="font-weight-bold">Wallet Address</th>
                             <th class="font-weight-bold">Created at</th>
-                            <th class="font-weight-bold">Paid at</th>
                             <th class="font-weight-bold">Status</th>
                           </tr>
                         </thead>
                         <tbody>
+                          {% for f in custinfo %}
                           <tr>
                             <td>
-                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face1.jpg' %}" alt="profile image"> Katie Holmes
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face1.jpg' %}" alt="profile image"> {{f.name}}
                             </td>
-                            <td>$3621</td>
-                            <td><img src="{% static 'images/dashboard/alipay.png' %}" alt="alipay" class="gateway-icon mr-2"> alipay</td>
-                            <td>04 Jun 2019</td>
-                            <td>18 Jul 2019</td>
+                            <td>{{f.secrettype}}</td>
+                            <td>{{f.wallettype}}</td>
+                            <td>{{f.walletaddress}}</td>
+                            <td>{{f.creating}}</td>
                             <td>
-                              <div class="badge badge-success p-2">Paid</div>
+                              <div class="badge badge-success p-2">Success</div>
                             </td>
                           </tr>
+                          {% endfor %}
+                          <!--
                           <tr>
                             <td>
                               <img class="img-sm rounded-circle" src="{% static 'images/faces/face2.jpg' %}" alt="profile image"> Minnie Copeland
@@ -203,6 +212,7 @@
                               <div class="badge badge-success p-2">Paid</div>
                             </td>
                           </tr>
+                          -->
                         </tbody>
                       </table>
                     </div>

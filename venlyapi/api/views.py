@@ -10,7 +10,7 @@ import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
-from . models import CustomerInfo, ImageContractNft, TokenTypeNft
+from . models import CustomerInfo, ImageContractNft, TokenTypeNft, FungibleToken, MintNft
 from django.core.files.storage import FileSystemStorage
 
 
@@ -44,13 +44,16 @@ def dashboard(request):
 
         print(dataclient)
 
+        customer = CustomerInfo.objects.all()
+
         context = {
             'user': current_user,
             "user_id": profile["userId"],
             "nickname": profile["nickname"],
             "bearer":token,
             "chaintoken": chain,
-            "datacust":dataclient
+            "datacust":dataclient,
+            "custinfo":customer
         }
 
         return render(request, 'api/dashboard.html', context)
@@ -290,7 +293,9 @@ def deploynftprocess(request):
         except:
             #return render(request,'api/deploynft.html', {'error':'Something is wrong'})
             if res['status'] == '500':
-                return HttpResponseRedirect('dashboard')
+                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+            elif res['errorMessage'] == 'Transactional Execution Error':
+                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
             else:
                 return HttpResponseRedirect('')
         else:
@@ -409,11 +414,10 @@ def createtokentypeprocess(request):
             print(resp)
 
         except:
-            #if resp['status'] == '500':
-            print(resp)
-            return HttpResponseRedirect('dashboard')
-            #else:
-            #    return HttpResponseRedirect('')
+            if res['status'] == '500':
+                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+            elif res['errorMessage'] == 'Transactional Execution Error':
+                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
         else:
             responsed = TokenTypeNft.objects.all()
 
@@ -455,3 +459,168 @@ def tokentypelists(request):
     else:
         return render(request, 'api/login.html')
     
+def fungibletoken(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        return render(request, 'api/fungibletoken.html')
+    else:
+        return HttpResponseRedirect('login')
+
+
+def createfungible(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        if request.method == 'POST':
+            appsid = request.POST['applicationid']
+            contractid = request.POST['contractnumber']
+            tokenid = request.POST['tokennumber']
+            dest = request.POST['destination']
+            amounts = request.POST['qty']
+            ownernft = request.POST['ownername']
+
+        try:
+            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/tokens/fungible/{}".format(appsid,contractid,tokenid)
+
+            payload = json.dumps({
+            "destinations": [
+                "{}".format(dest)
+            ],
+            "amounts": [
+                amounts
+            ]
+            })
+            headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+            }
+
+            response = requests.request("POST", url, headers=headers, data=payload)
+
+            res = response.json()
+
+            print(res)
+
+        except:
+            if res['status'] == '500':
+                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+            elif res['errorMessage'] == 'Transactional Execution Error':
+                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+            elif res['errorCode'] == 'fungible-minter-error':
+                return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+        else:
+            assettype = res['asset_contract']['media']['type']
+            #owner = res['asset_contract']['address']
+
+            print(assettype)
+
+            FungibleToken.objects.create(
+                application_id = appsid,
+                contract_id = contractid,
+                token_id = tokenid,
+                destination = dest,
+                supply = amounts,
+                name = ownernft
+            )
+
+            return HttpResponseRedirect('fungibletokenlists')
+
+def fungibletokenlists(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        responseb = FungibleToken.objects.all()
+
+        context = {
+            'ftlists':responseb
+        }
+
+
+        return render(request, 'api/fungibletokenlists.html', context)
+    else:
+        return HttpResponseRedirect('dashboard')
+    
+
+def mintnft(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        return render(request, 'api/mintnft.html')
+    else:
+        return HttpResponseRedirect('login')
+
+def processmintnft(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        if request.method == 'POST':
+            appsid = request.POST['applicationid']
+            contractid = request.POST['contractnumber']
+            tokenid = request.POST['tokennumber']
+            dest = request.POST['destination']
+            amounts = request.POST['qty']
+            ownernft = request.POST['ownername']
+
+        try:
+            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/types/{}/tokens".format(appsid,contractid,tokenid)
+
+            payload = json.dumps({
+            "destinations": [
+                {
+                "address": "{}".format(dest),
+                "amount": amounts
+                }
+            ]
+            })
+            headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+            }
+
+            response = requests.request("POST", url, headers=headers, data=payload)
+
+            res = response.json()
+
+            print(res)
+
+        except:
+            if res['status'] == '500':
+                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+            elif res['errorMessage'] == 'Transactional Execution Error':
+                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+            elif res['errorCode'] == 'fungible-minter-error':
+                return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+        else:
+            #assettype = res['asset_contract']['media']['type']
+            #print(assettype)
+
+            MintNft.objects.create(
+                application_id = appsid,
+                contract_id = contractid,
+                token_id = tokenid,
+                destination = dest,
+                supply = amounts,
+                name = ownernft
+            )
+
+            return HttpResponseRedirect('mintnftlists')
+
+def mintnftlists(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        responseb = MintNft.objects.all()
+        print(responseb)
+
+        context = {
+            'mintlists':responseb
+        }
+
+        return render(request, 'api/mintnftlists.html', context)
+    else:
+        return HttpResponseRedirect('dashboard')

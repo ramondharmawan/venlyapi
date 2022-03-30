@@ -156,6 +156,21 @@
                   </ul>
                 </div>
               </li>
+              <li class="nav-item nav-category"><span class="nav-link">NFT Creations</span></li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                  <span class="menu-title">Mint NFT</span>
+                  <i class="icon-doc menu-icon"></i>
+                </a>
+                <div class="collapse" id="auth">
+                  <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'fungibletoken' %}"> Create Fungible </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'mintnft' %}"> Mint NFT </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'fungibletokenlists' %}"> Fungible Lists </a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{% url 'mintnftlists' %}"> Non Fungible Lists </a></li>
+                  </ul>
+                </div>
+              </li>
               <!-- end sidebar menu -->
             </ul>
           </nav>

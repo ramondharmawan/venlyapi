@@ -18,4 +18,10 @@ urlpatterns = [
     path('createtokentype', views.createtokentype, name='createtokentype'),
     path('createtokentypeprocess', views.createtokentypeprocess, name='createtokentypeprocess'),
     path('tokentypelists', views.tokentypelists, name='tokentypelists'),
+    path('fungibletoken', views.fungibletoken, name='fungibletoken'),
+    path('createfungible', views.createfungible, name='createfungible'),
+    path('fungibletokenlists', views.fungibletokenlists, name='fungibletokenlists'),
+    path('mintnft', views.mintnft, name='mintnft'),
+    path('processmintnft', views.processmintnft, name='processmintnft'),
+    path('mintnftlists', views.mintnftlists, name='mintnftlists'),
 ]

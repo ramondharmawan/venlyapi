@@ -1,0 +1,76 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Mint NFT </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">NFT</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create Non Fungible NFT</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <p>
+                {% if error %}
+                  {{ error }}
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Create a Non Fungible NFT</h4>
+              <p class="card-description"> Minting a new Non Fungible NFT </p>
+              <!--Form Start-->
+              <form class="forms-sample" method="POST" action="{% url 'processmintnft' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputName">NFT Owner Name</label>
+                    <input type="text" name="ownername" class="form-control" id="exampleInputName" placeholder="Batman">
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputAppsid">Application ID</label>
+                  <input type="text" name="applicationid" class="form-control" id="exampleInputAppsid" placeholder="3b613051-4e10-479d-a75a-ee355541e5a0">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputContractid">Contract ID</label>
+                    <input type="text" name="contractnumber" class="form-control" id="exampleInputContractid" placeholder="3667">
+                  </div>
+                <div class="form-group">
+                   <label for="exampleInputTokenid">Token ID</label>
+                   <input type="text" name="tokennumber" class="form-control" id="exampleInputTokenid" placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputDestination">Destination Wallet</label>
+                    <input type="text" name="destination" class="form-control" id="exampleInputDestination" placeholder="0xD07193dC94661690401e0461Bc72B71bca102D29">
+                 </div>
+                <div class="form-group">
+                  <label for="exampleInputAmounts">Amounts</label>
+                  <input type="text" name="qty" class="form-control" id="exampleInputAmounts" placeholder="1000">
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <!--<button class="btn btn-light">Cancel</button>-->
+              </form>
+               <!--Form End-->
+
+            </div>
+          </div>
+        </div>
+        
+      </div> <!-- this is end div class row -->
+    </div>
+    <!-- content-wrapper ends -->
+
+{% endblock maincontent %}

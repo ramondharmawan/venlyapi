@@ -65,3 +65,25 @@ class TokenTypeNft(models.Model):
 
     def __str__(self):
         return self.name_token
+
+class FungibleToken(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    application_id = models.CharField(max_length=100, null=True, blank=True)
+    contract_id = models.CharField(max_length=100, null=True, blank=True)
+    token_id = models.CharField(max_length=100, null=True, blank=True)
+    destination = models.CharField(max_length=100, null=True, blank=True)
+    supply = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+class MintNft(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    application_id = models.CharField(max_length=100, null=True, blank=True)
+    contract_id = models.CharField(max_length=100, null=True, blank=True)
+    token_id = models.CharField(max_length=100, null=True, blank=True)
+    destination = models.CharField(max_length=100, null=True, blank=True)
+    supply = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

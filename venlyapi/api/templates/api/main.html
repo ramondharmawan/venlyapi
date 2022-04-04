@@ -90,7 +90,7 @@
                     <p class="mb-1 mt-3">{{user}}</p>
                     <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
                   </div>
-                  <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
+                  <a href="{% url 'profile' %}" class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
                   <a href="{% url 'logout' %}" class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
                 </div>
               </li>
@@ -129,6 +129,12 @@
                 <a class="nav-link" href="{% url 'dashboard' %}">
                   <span class="menu-title">Dashboard</span>
                   <i class="icon-screen-desktop menu-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'instancemintnft' %}">
+                  <span class="menu-title">Instance Mint</span>
+                  <i class="icon-rocket menu-icon"></i>
                 </a>
               </li>
               <li class="nav-item nav-category"><span class="nav-link">NFT</span></li>

@@ -24,4 +24,11 @@ urlpatterns = [
     path('mintnft', views.mintnft, name='mintnft'),
     path('processmintnft', views.processmintnft, name='processmintnft'),
     path('mintnftlists', views.mintnftlists, name='mintnftlists'),
+    path('instancemintnft', views.instancemintnft, name='instancemintnft'),
+    path('profile', views.profile, name='profile'),
+    path('updateprofile', views.updateprofile, name='updateprofile'),
 ]
+
+handler404 = 'api.views.error_404_view'
+
+handler500 = 'api.views.error_500_view'

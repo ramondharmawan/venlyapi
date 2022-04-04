@@ -1,0 +1,92 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> NFT Creation </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">NFT</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Minting NFT</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="row">
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <p>
+                {% if error %}
+                  {{ error }}
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">NFT Contract</h4>
+              <p class="card-description"> Create contract, token type and minting your NFT's </p>
+              <!--Form Start-->
+              <form class="forms-sample" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="exampleInput1">Contract Name</label>
+                  <input type="text" name="deployname" class="form-control" id="exampleInput1" placeholder="Contract Name">
+                </div>
+                <div class="form-group">
+                  <label for="exampleSelectChain">Chain Name</label>
+                  <select class="form-control" id="exampleSelectChain" name="deploychain">
+                    {% for i in nftchainlist %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                   <label for="exampleInputWalletAddress">Wallet Addresss</label>
+                   <input type="text" name="deployaddress" class="form-control" id="exampleInputWalletAddress" placeholder="0xF4Cc6E6c585d23585d5F08BDaEE9b85aB658fa95">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputAppId">Application Id</label>
+                    <input type="text" name="appid" class="form-control" id="exampleInputAppId" placeholder="3b613051-4e10-479d-a75a-ee355541e5a0">
+                 </div>
+                <div class="form-group">
+                  <label>File upload</label>
+                  <input type="file" class="form-control" name="upload" accept="image/*" id="formFile">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputWeb1">Your Site</label>
+                  <input type="text" name="deploysite" class="form-control" id="exampleInputWeb1" placeholder="https://yourweb.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputTwitter1">Twitter link</label>
+                  <input type="text" name="deploytwitter" class="form-control" id="exampleInputTwitter1" placeholder="https://twitter.com/your-twitter">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputLinkedin1">Linkedin Link</label>
+                  <input type="text" name="deploylinkedin" class="form-control" id="exampleInputLinkedin1" placeholder="https://www.linkedin.com/company/your-linkedin">
+                </div>
+                <div class="form-group">
+                  <label for="exampleTextarea1">Description</label>
+                  <textarea class="form-control" name="deploydesc" id="exampleTextarea1" rows="4" placeholder="Example contract created using the NFT"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <!--<button class="btn btn-light">Cancel</button>-->
+              </form>
+               <!--Form End-->
+
+            </div>
+          </div>
+        </div>
+        
+      </div> <!-- this is end div class row -->
+    </div>
+    <!-- content-wrapper ends -->
+
+{% endblock maincontent %}

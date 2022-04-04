@@ -35,7 +35,9 @@
                   <tbody>
                     {% for i in tokentypelists %}
                     <tr class="table-info">
-                      <td></td>
+                      <td>
+                        {{ forloop.counter }}
+                      </td>
                       <td> {{i.name_token}} </td>
                       <td> {{i.token_type}} </td>
                       <td> {{i.token_owner}}</td>

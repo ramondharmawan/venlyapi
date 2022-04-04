@@ -624,3 +624,91 @@ def mintnftlists(request):
         return render(request, 'api/mintnftlists.html', context)
     else:
         return HttpResponseRedirect('dashboard')
+
+
+def instancemintnft(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        return render(request, 'api/instancenftmint.html')
+
+
+#### Error Handling ####
+def error_404_view(request, exception):
+    
+    # we add the path to the the 404.html file
+    # here. The name of our HTML file is 404.html
+    return render(request, 'api/error-404.html')
+
+def error_500_view(request, *args, **argv):
+    
+    # we add the path to the the 500.html file
+    # here. The name of our HTML file is 500.html
+    return render(request, 'api/error-500.html', status=500)
+
+#### End Error Handling ####
+
+def profile(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        data = User.objects.filter(username = current_user)
+
+        print(data)
+
+        context = {
+            'data1' : data, 
+        }
+
+        return render(request, 'api/getprofile.html', context)
+    else:
+        HttpResponseRedirect('login')
+    
+
+
+def updateprofile(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        print (current_user.password)
+
+        #if request.method == 'POST':
+        #    if request.POST['newpass'] == "" and request.POST['confirmpass'] == "" and current_user.password == request.POST['oldpass']:
+        #        editname = request.POST['name']
+        #        editemail = request.POST['email']
+        #        usr = User.objects.get(username='current_user')
+        #        usr.set_username('editname')
+        #        usr.set_email('editemail')
+        #        usr.save()
+        #        HttpResponseRedirect('profile')
+        #    else:
+        #        return render(request,'api/getprofile.html', {'error':'Password must filled!'})
+        #else:
+        #    return render(request,'api/getprofile.html', {'error':'Server Error!'})
+
+        if request.method == 'POST':
+            datapass = request.POST['oldpass']
+            user = User.objects.get(username = current_user)
+            if user.check_password(datapass):
+            #if current_user.password == request.POST['oldpass']:
+                if request.POST['newpass'] == request.POST['confirmpass']:
+                    editpass = request.POST['newpass']
+                    usr = User.objects.get(username=current_user)
+                    usr.set_password('editpass')
+                    usr.save()
+                    HttpResponseRedirect('login')
+                else:
+                    return render(request,'api/getprofile.html', {'error':'Password does not match!'})
+            else:
+                datapass1 = user.check_password(datapass)
+                print(datapass1)
+                return render(request,'api/getprofile.html', {'error':'Old Password does not match!'})
+        else:
+            return render(request,'api/getprofile.html', {'error':'Server Error!'})
+    else:
+        HttpResponseRedirect('login')
+
+
+    return render(request, 'api/getprofile.html')

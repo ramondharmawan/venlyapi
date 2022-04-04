@@ -35,7 +35,7 @@
                   <tbody>
                     {% for i in contractlist %}
                     <tr class="table-info">
-                      <td> 1 </td>
+                      <td> {{ forloop.counter }} </td>
                       <td> {{i.owner_name}} </td>
                       <td> {{i.contracts_id}} </td>
                       <td> {{i.symbol}}</td>

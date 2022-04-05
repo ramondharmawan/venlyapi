@@ -8,9 +8,9 @@ from . module.getNftChain import getnftchain
 from . module.getWalletClient import clientdata
 import yagmail
 from django.contrib.auth.models import User
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
-from . models import CustomerInfo, ImageContractNft, TokenTypeNft, FungibleToken, MintNft
+from . models import CustomerInfo, ImageContractNft, TokenTypeNft, FungibleToken, MintNft, Profile
 from django.core.files.storage import FileSystemStorage
 
 
@@ -672,43 +672,105 @@ def updateprofile(request):
     if request.user.is_authenticated:
         current_user = request.user
 
-        print (current_user.password)
+        newname = request.POST.get('name')
+        newemail = request.POST.get('email')
 
-        #if request.method == 'POST':
-        #    if request.POST['newpass'] == "" and request.POST['confirmpass'] == "" and current_user.password == request.POST['oldpass']:
-        #        editname = request.POST['name']
-        #        editemail = request.POST['email']
-        #        usr = User.objects.get(username='current_user')
-        #        usr.set_username('editname')
-        #        usr.set_email('editemail')
-        #        usr.save()
-        #        HttpResponseRedirect('profile')
-        #    else:
-        #        return render(request,'api/getprofile.html', {'error':'Password must filled!'})
-        #else:
-        #    return render(request,'api/getprofile.html', {'error':'Server Error!'})
+        usr = User.objects.get(username=current_user)
+        print(usr.username)
+
+        if usr.username == current_user:
+            if usr.username == newname:
+                messages.add_message(request, messages.INFO, "Your Username is Not Changed")
+                return HttpResponseRedirect('profile')  
+            elif usr.username == '':
+                messages.add_message(request, messages.INFO, "Your Username is still the same")
+                return HttpResponseRedirect('profile')  
+            else:
+                User.objects.filter(username=current_user).update(username = newname)
+                messages.add_message(request, messages.INFO, "Your Username has been Changed")
+                return HttpResponseRedirect('profile')
+
+        else:
+            if usr.email == newemail:
+                messages.add_message(request, messages.INFO, "Your Email is Not Changed")
+                return HttpResponseRedirect('profile')  
+            elif usr.email == '':
+                messages.add_message(request, messages.INFO, "Your Email is still the same")
+                return HttpResponseRedirect('profile')  
+            else:
+                User.objects.filter(username=current_user).update(email = newemail)
+                messages.add_message(request, messages.INFO, "Your Email has been Changed")
+                return HttpResponseRedirect('profile')
+
+    else:
+        return HttpResponseRedirect('login')
+
+    
+
+
+def updatecredentials(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+        print(current_user)
+
+        oldpasswd = request.POST.get('oldpass')
+        newpasswd = request.POST.get('newpass')
+        confirmpasswd = request.POST.get('confirmpass')
+        print(confirmpasswd)
+
+        usr = User.objects.get(email=current_user)
+
+        if newpasswd == confirmpasswd:
+            if usr.check_password(oldpasswd):           
+                # Success Code
+                usr.set_password(newpasswd)
+                usr.save()
+                return render(request,'api/getprofile.html', {'error':'Password is change successfully'})
+            else:
+                # Error Code
+                return render(request,'api/getprofile.html', {'error':'Password is not correct'})
+        else:
+            return render(request,'api/getprofile.html', {'error':'new and confirm Password is not match'})
+        return render(request, 'api/getprofile.html')
+    else:
+        return HttpResponseRedirect('login')
+
+
+def changepp(request):
+    if request.user.is_authenticated:
+        current_user = request.user
 
         if request.method == 'POST':
-            datapass = request.POST['oldpass']
-            user = User.objects.get(username = current_user)
-            if user.check_password(datapass):
-            #if current_user.password == request.POST['oldpass']:
-                if request.POST['newpass'] == request.POST['confirmpass']:
-                    editpass = request.POST['newpass']
-                    usr = User.objects.get(username=current_user)
-                    usr.set_password('editpass')
-                    usr.save()
-                    HttpResponseRedirect('login')
-                else:
-                    return render(request,'api/getprofile.html', {'error':'Password does not match!'})
-            else:
-                datapass1 = user.check_password(datapass)
-                print(datapass1)
-                return render(request,'api/getprofile.html', {'error':'Old Password does not match!'})
+            uploads = request.FILES['imagespp']
+            print(uploads)
+            fss = FileSystemStorage()
+            file = fss.save(uploads.name, uploads)
+            file2_url = fss.url(file)   
+            print(file2_url)
+
+            Profile.objects.filter(user=current_user).update(profile_image = file2_url)
+
+            pp = Profile.objects.get(user=current_user)
+
+            context = {
+                'datapp': pp.profile_image
+            }
+            
+            return render(request, 'api/changepp.html',context)
+
         else:
-            return render(request,'api/getprofile.html', {'error':'Server Error!'})
-    else:
-        HttpResponseRedirect('login')
+            pp = Profile.objects.get(user=current_user)
+
+            context = {
+                'datapp': pp.profile_image
+            }
+            
+            return render(request, 'api/changepp.html',context)
 
 
-    return render(request, 'api/getprofile.html')
+
+        
+
+        
+
+        

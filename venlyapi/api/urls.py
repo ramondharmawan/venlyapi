@@ -27,6 +27,8 @@ urlpatterns = [
     path('instancemintnft', views.instancemintnft, name='instancemintnft'),
     path('profile', views.profile, name='profile'),
     path('updateprofile', views.updateprofile, name='updateprofile'),
+    path('updatecredentials', views.updatecredentials, name='updatecredentials'),
+    path('changepp', views.changepp, name='changepp'),
 ]
 
 handler404 = 'api.views.error_404_view'

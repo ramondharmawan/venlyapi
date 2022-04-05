@@ -82,13 +82,15 @@
                 <input type="search" class="form-control" placeholder="Search Here" title="Search here">
               </form>
               <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
-                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                  <img class="img-xs rounded-circle ml-2" src="{% static 'images/faces/face8.jpg' %}" alt="Profile image"> <span class="font-weight-normal"> {{user}} </span></a>
+                <a class="nav-link dropdown-toggle" id="UserDropdown" href="{% url 'changepp' %}" data-toggle="dropdown" aria-expanded="false">
+                  <img class="img-xs rounded-circle ml-2" src="{{datapp}}" alt="Profile image"> <span class="font-weight-normal"> {{user}} </span></a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                   <div class="dropdown-header text-center">
-                    <img class="img-md rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="Profile image">
+                    <a href="{% url 'changepp' %}">
+                    <img class="img-md rounded-circle" src="{{datapp}}" alt="Profile image">
+                    </a>
                     <p class="mb-1 mt-3">{{user}}</p>
-                    <p class="font-weight-light text-muted mb-0">allenmoreno@gmail.com</p>
+                    <p class="font-weight-light text-muted mb-0">{{user}}</p>
                   </div>
                   <a href="{% url 'profile' %}" class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
                   <a href="{% url 'logout' %}" class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
@@ -109,7 +111,7 @@
               <li class="nav-item nav-profile">
                 <a href="#" class="nav-link">
                   <div class="profile-image">
-                    <img class="img-xs rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="profile image">
+                    <img class="img-xs rounded-circle" src="{{datapp}}" alt="profile image">
                     <div class="dot-indicator bg-success"></div>
                   </div>
                   <div class="text-wrapper">
@@ -224,5 +226,26 @@
         document.getElementsByClassName("loading")[0].style.display = "flex";
       }
     </script>
+
+    <script>
+    $(document).ready(function() {
+      $('#field').keyup(function() {
+
+        var empty = false;
+        $('#field').each(function() {
+            if ($(this).val().length == 0) {
+                empty = true;
+            }
+        });                   
+
+        if (empty) {
+            $('#actions[type="submit"]').attr('disabled', 'disabled');
+        } else {
+            $('#actions[type="submit"]').removeAttr('disabled');
+        }                
+      });
+    });
+  </script>
+
   </body>
 </html>

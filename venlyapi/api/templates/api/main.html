@@ -226,26 +226,5 @@
         document.getElementsByClassName("loading")[0].style.display = "flex";
       }
     </script>
-
-    <script>
-    $(document).ready(function() {
-      $('#field').keyup(function() {
-
-        var empty = false;
-        $('#field').each(function() {
-            if ($(this).val().length == 0) {
-                empty = true;
-            }
-        });                   
-
-        if (empty) {
-            $('#actions[type="submit"]').attr('disabled', 'disabled');
-        } else {
-            $('#actions[type="submit"]').removeAttr('disabled');
-        }                
-      });
-    });
-  </script>
-
   </body>
 </html>

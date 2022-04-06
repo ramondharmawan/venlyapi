@@ -16,7 +16,6 @@ from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
-
 def index(request):
     if request.method == 'POST':
         user = auth.authenticate(username=request.POST['username'],password = request.POST['password'])
@@ -45,6 +44,7 @@ def dashboard(request):
         print(dataclient)
 
         customer = CustomerInfo.objects.all()
+        pp = Profile.objects.get(user=current_user)
 
         context = {
             'user': current_user,
@@ -53,7 +53,8 @@ def dashboard(request):
             "bearer":token,
             "chaintoken": chain,
             "datacust":dataclient,
-            "custinfo":customer
+            "custinfo":customer,
+            'datapp': pp.profile_image
         }
 
         return render(request, 'api/dashboard.html', context)
@@ -171,8 +172,11 @@ def deploynft(request):
 
         nftchain = getnftchain(HttpResponse)
 
+        pp = Profile.objects.get(user=current_user)
+
         context = {
             "nftchainlist": nftchain,
+            'datapp': pp.profile_image
         }
 
         return render(request, 'api/deploynft.html', context)
@@ -324,10 +328,11 @@ def nftcontractlist(request):
         current_user = request.user
 
         response = ImageContractNft.objects.all()
-        
+        pp = Profile.objects.get(user=current_user)
 
         context = {
-            'contractlist':response
+            'contractlist':response,
+            'datapp': pp.profile_image
         }
 
 
@@ -339,7 +344,14 @@ def nftcontractlist(request):
 def createtokentype(request):
     if request.user.is_authenticated:
         current_user = request.user
-        return render(request, 'api/createtokentype.html')
+
+        pp = Profile.objects.get(user=current_user)
+
+        context = {
+            'datapp': pp.profile_image
+        }
+
+        return render(request, 'api/createtokentype.html', context)
     else:
         return render(request, 'api/login.html')
 
@@ -449,9 +461,12 @@ def tokentypelists(request):
         new_res = len(responses)
         print(new_res)
 
+        pp = Profile.objects.get(user=current_user)
+
         context = {
             'tokentypelists':responses,
-            'number':new_res
+            'number':new_res,
+            'datapp': pp.profile_image
         }
 
 
@@ -463,7 +478,13 @@ def fungibletoken(request):
     if request.user.is_authenticated:
         current_user = request.user
 
-        return render(request, 'api/fungibletoken.html')
+        pp = Profile.objects.get(user=current_user)
+
+        context = {
+            'datapp': pp.profile_image
+        }
+
+        return render(request, 'api/fungibletoken.html', context)
     else:
         return HttpResponseRedirect('login')
 
@@ -533,9 +554,11 @@ def fungibletokenlists(request):
         current_user = request.user
 
         responseb = FungibleToken.objects.all()
+        pp = Profile.objects.get(user=current_user)
 
         context = {
-            'ftlists':responseb
+            'ftlists':responseb,
+            'datapp': pp.profile_image
         }
 
 
@@ -548,7 +571,13 @@ def mintnft(request):
     if request.user.is_authenticated:
         current_user = request.user
 
-        return render(request, 'api/mintnft.html')
+        pp = Profile.objects.get(user=current_user)
+
+        context = {
+            'datapp': pp.profile_image
+        }
+
+        return render(request, 'api/mintnft.html', context)
     else:
         return HttpResponseRedirect('login')
 
@@ -615,10 +644,11 @@ def mintnftlists(request):
         current_user = request.user
 
         responseb = MintNft.objects.all()
-        print(responseb)
+        pp = Profile.objects.get(user=current_user)
 
         context = {
-            'mintlists':responseb
+            'mintlists':responseb,
+            'datapp': pp.profile_image
         }
 
         return render(request, 'api/mintnftlists.html', context)
@@ -632,8 +662,48 @@ def instancemintnft(request):
 
         token = getTokens(HttpResponse)
 
-        return render(request, 'api/instancenftmint.html')
+        pp = Profile.objects.get(user=current_user)
+        clientdata = CustomerInfo.objects.all()
 
+        test = request.POST.get('clientname')
+        print(test)
+        
+        if request.POST.get('clientname') == '':
+
+            context = {
+            'datapp': pp.profile_image,
+            'client': clientdata,
+            }
+
+        elif request.POST.get('clientname') != '':
+
+            nameclt = request.POST.get('clientname')
+            print (nameclt)
+            block = CustomerInfo.objects.filter(name=nameclt)
+
+            print(block)
+            context = {
+            'datapp': pp.profile_image,
+            'client': clientdata,
+            'namer': nameclt,
+            'chain': block
+            }
+        else:
+            #request.POST.get('deploychain') == '':
+            nameclt = request.POST.get('clientname')
+            chainclt = request.POST.get('deploychain')
+
+            clientdata = CustomerInfo.objects.filter(name=nameclt, secrettype=chainclt)
+            print(clientdata)
+
+            context = {
+            'datapp': pp.profile_image,
+            'client': clientdata,
+            'wallet':clientdata
+            }
+        return render(request, 'api/instancenftmint.html', context)
+
+        
 
 #### Error Handling ####
 def error_404_view(request, exception):
@@ -655,11 +725,13 @@ def profile(request):
         current_user = request.user
 
         data = User.objects.filter(username = current_user)
+        pp = Profile.objects.get(user=current_user)
 
         print(data)
 
         context = {
             'data1' : data, 
+            'datapp': pp.profile_image
         }
 
         return render(request, 'api/getprofile.html', context)
@@ -705,8 +777,6 @@ def updateprofile(request):
     else:
         return HttpResponseRedirect('login')
 
-    
-
 
 def updatecredentials(request):
     if request.user.is_authenticated:
@@ -740,7 +810,16 @@ def changepp(request):
     if request.user.is_authenticated:
         current_user = request.user
 
-        if request.method == 'POST':
+        if request.POST.get('imagespp') == '':
+            pp = Profile.objects.get(user=current_user)
+
+            context = {
+                'datapp': pp.profile_image
+            }
+            
+            return render(request, 'api/changepp.html',context)
+
+        elif request.method == 'POST':
             uploads = request.FILES['imagespp']
             print(uploads)
             fss = FileSystemStorage()

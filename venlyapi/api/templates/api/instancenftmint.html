@@ -37,20 +37,36 @@
               <form class="forms-sample" method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
-                  <label for="exampleInput1">Contract Name</label>
-                  <input type="text" name="deployname" class="form-control" id="exampleInput1" placeholder="Contract Name">
+                  <label for="exampleSelectChain">Client Name</label>
+                  <!--<select class="form-control" id="exampleSelectClient" name="clientname" onChange="this.form.submit();">-->
+                  <select class="form-control" id="exampleSelectClient" name="clientname" onChange="this.form.submit();">
+                    
+                      {% for name in client %}
+                      <option value="{{name.name}}">{{name.name}}</option>
+                      {% endfor %}
+                
+                   
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleSelectChain">Chain Name</label>
-                  <select class="form-control" id="exampleSelectChain" name="deploychain">
-                    {% for i in nftchainlist %}
-                    <option value="{{i}}">{{i}}</option>
+                  <select class="form-control" id="exampleSelectChain" name="deploychain" onChange="this.form.submit();"> 
+                    {% for i in chain %}
+                    <option value="{{i.secrettype}}">{{i.secrettype}}</option>
                     {% endfor %}
                   </select>
                 </div>
                 <div class="form-group">
-                   <label for="exampleInputWalletAddress">Wallet Addresss</label>
-                   <input type="text" name="deployaddress" class="form-control" id="exampleInputWalletAddress" placeholder="0xF4Cc6E6c585d23585d5F08BDaEE9b85aB658fa95">
+                  <label for="exampleInputWalletAddress">Wallet Addresss</label>
+                  <select name="deployaddress" class="form-control" id="exampleInputWalletAddress">
+                    {% for i in wallet %}
+                    <option value="{{i.wallettype}}">{{i.wallettype}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInput1">Contract Name</label>
+                  <input type="text" name="deployname" class="form-control" id="exampleInput1" placeholder="Contract Name">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputAppId">Application Id</label>

@@ -42,7 +42,7 @@
                   <select class="form-control" id="exampleSelectClient" name="clientname" onChange="this.form.submit();">
                     
                       {% for name in client %}
-                      <option value="{{name.name}}">{{name.name}}</option>
+                      <option value="{{name.name}}" {% if client.name.value == value %} selected{% endif %}>{{name.name}}</option>
                       {% endfor %}
                 
                    
@@ -52,7 +52,7 @@
                   <label for="exampleSelectChain">Chain Name</label>
                   <select class="form-control" id="exampleSelectChain" name="deploychain" onChange="this.form.submit();"> 
                     {% for i in chain %}
-                    <option value="{{i.secrettype}}">{{i.secrettype}}</option>
+                    <option value="{{i.secrettype}}" {% if chain.i.value == value %} selected{% endif %}>{{i.secrettype}}</option>
                     {% endfor %}
                   </select>
                 </div>

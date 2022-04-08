@@ -57,6 +57,12 @@
     opacity: 1;
     transform: opacity 1s linear;
   }
+  #hidden_div{
+    display: none;
+  }
+  #hidden_div1{
+    display: none;
+  }
     </style>
   </head>
   <body>
@@ -226,5 +232,13 @@
         document.getElementsByClassName("loading")[0].style.display = "flex";
       }
     </script>
+    <script>
+      function showDiv(divId, element)
+      {
+          document.getElementById(divId).style.display = element.value == 'True' ? 'block' : 'none';
+          document.getElementById(divId).style.display = element.value == 'False' ? 'block' : 'none';
+      }
+    </script>
+
   </body>
 </html>

@@ -8,6 +8,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     dob = models.DateField(null=True, blank=True)
+    appsid = models.CharField(max_length=100, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profileImages/%Y/%m/%d/', default='default.png')
 
 

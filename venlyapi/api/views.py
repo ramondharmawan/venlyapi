@@ -774,11 +774,49 @@ def instancemintnft(request):
         test = request.POST.get('clientname')
         print(test)
         
+        if request.POST.get('clientname') == '' or request.POST.get('clientname') == '0':
+
+            context = {
+            'datapp': pp.profile_image,
+            'client': clientdata,
+            }
+
+        elif request.POST.get('clientname') != '' or request.POST.get('clientname') != '0':
+
+            nameclt = request.POST.get('clientname')
+            print (nameclt)
+            block = CustomerInfo.objects.filter(name=nameclt)
+            appid = Profile.objects.all()
+
+            print(block)
+            context = {
+            'datapp': pp.profile_image,
+            'client': clientdata,
+            'namer': nameclt,
+            'chain': block,
+            'aplid': appid
+            }
+        else:
+           HttpResponseRedirect('login')
+        return render(request, 'api/instancenftmint.html', context)
+
+def instancemintnftprocs(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        pp = Profile.objects.get(user=current_user)
+        clientdata = CustomerInfo.objects.all()
+
+        test = request.POST.get('clientname')
+        print(test)
+        
         if request.POST.get('clientname') == '':
 
             context = {
             'datapp': pp.profile_image,
-            'client': [(None, 'selected')]+clientdata,
+            'client': clientdata,
             }
 
         elif request.POST.get('clientname') != '':
@@ -808,8 +846,6 @@ def instancemintnft(request):
             'wallet':clientdata
             }
         return render(request, 'api/instancenftmint.html', context)
-
-        
 
 #### Error Handling ####
 def error_404_view(request, exception):

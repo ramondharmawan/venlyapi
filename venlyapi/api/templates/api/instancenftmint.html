@@ -31,8 +31,8 @@
         <div class="col-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title" style="color: crimson;">NFT Contract</h4>
-              <p class="card-description" style="color: crimson;"> Create contract, token type and minting your NFT's </p>
+              <h4 class="card-title" style="color: #45ce3c;">NFT Contract</h4>
+              <p class="card-description" style="color: #45ce3c;"> Create contract, token type and minting your NFT's </p>
               <!--Form Start-->
               <form class="forms-sample" method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -100,8 +100,8 @@
                   <textarea class="form-control" name="deploydesc" id="exampleTextarea1" rows="4" placeholder="Example contract created using the NFT"></textarea>
                 </div>
                 <!-- Starting Info about Create token type -->
-                <h4 class="card-title" style="color: crimson;">NFT Token Type</h4>
-                <p class="card-description" style="color: crimson;"> Create Token and minting your NFT's </p>
+                <h4 class="card-title" style="color: #45ce3c;">NFT Token Type</h4>
+                <p class="card-description" style="color: #45ce3c;"> Create Token and minting your NFT's </p>
                 <div class="form-group">
                   <label for="exampleInputName1">NFT Token Name</label>
                   <input type="text" name="tokenname" class="form-control" id="exampleInputName1" placeholder="Your Name">
@@ -152,68 +152,49 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleSelectChain">Token Type?</label>
-                  <select class="form-control" id="exampleSelectTokenType" name="deploytypetoken" onchange="showDiv('hidden_div', this)"> 
+                  <label for="exampleSelectChain">Token Type *</label>
+                  <!--<select class="form-control" id="exampleSelectTokenType" name="deploytypetoken" onchange="showDiv('hidden_div', this)"> -->
+                  <select class="form-control" id="selection" name="deploytypetoken" onchange="showDiv()" required>
                     <option value="0">Choose</option>
-                    <option value="True">Fungible</option>
-                    <option value="False">Non Fungible</option>
+                    <option value="1">Fungible</option>
+                    <option value="2">Non Fungible</option>
                   </select>
                 </div>
-                <!-- create Non Fungible Token -->
-                <div id="hidden_div">
-                  <h4 class="card-title" style="color: crimson;">NFT Token Type 1</h4>
-                  <p class="card-description" style="color: crimson;"> Create Token and minting your NFT's </p>
-                  <div class="form-group">
-                    <label for="exampleInputAttribute">ATTRIBUTE</label>
-                    <div class="col-12">
-                      <label for="exampleAttributeType">Attribute Type</label>
-                      <select class="form-control" id="exampleSelectTypeAttribute" name="att-type-token">
-                          <option value="property">Property</option>
-                          <option value="stat">Stat</option>
-                          <option value="boost">Boost</option>
-                          <option value="system">System</option>
-                        </select>
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <label for="exampleAttributeName">Attribute Name</label>
-                      <input type="text" name="att-name-token" class="form-control" id="exampleInputNameAttribute" placeholder="talent">
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <label for="exampleAttributeType">Attribute Value</label>
-                      <input type="text" name="att-value-token" class="form-control" id="exampleInputValueAttribute" placeholder="leadership">
-                    </div>
-                  </div>
-                </div>
                 <!-- create Fungible Token -->
-                <div id="hidden_div1">
-                  <h4 class="card-title" style="color: crimson;">NFT Token Type</h4>
-                  <p class="card-description" style="color: crimson;"> Create Token and minting your NFT's </p>
+                <div id="fungible" style="display:none;">
+                  <h4 class="card-title" style="color: #45ce3c;">Fungible NFT</h4>
+                  <p class="card-description" style="color: #45ce3c;"> Create Fungible Token NFT</p>
                   <div class="form-group">
-                    <label for="exampleInputAttribute">ATTRIBUTE</label>
-                    <div class="col-12">
-                      <label for="exampleAttributeType">Attribute Type</label>
-                      <select class="form-control" id="exampleSelectTypeAttribute" name="att-type-token">
-                          <option value="property">Property</option>
-                          <option value="stat">Stat</option>
-                          <option value="boost">Boost</option>
-                          <option value="system">System</option>
-                        </select>
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <label for="exampleAttributeName">Attribute Name</label>
-                      <input type="text" name="att-name-token" class="form-control" id="exampleInputNameAttribute" placeholder="talent">
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <label for="exampleAttributeType">Attribute Value</label>
-                      <input type="text" name="att-value-token" class="form-control" id="exampleInputValueAttribute" placeholder="leadership">
-                    </div>
+                    <label for="exampleInputName">NFT Owner Name</label>
+                    <input type="text" name="ownername" class="form-control" id="exampleInputName" placeholder="Batman">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputDestination">Destination Wallet</label>
+                      <input type="text" name="destination" class="form-control" id="exampleInputDestination" placeholder="0xD07193dC94661690401e0461Bc72B71bca102D29">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputAmounts">Amounts</label>
+                    <input type="text" name="qty" class="form-control" id="exampleInputAmounts" placeholder="1000">
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2" formaction="{url 'instancemintnftprocs'}">Submit</button>
+                <!-- create Non Fungible Token -->
+                <div id="non_fungible" style="display:none;">
+                  <h4 class="card-title" style="color: #45ce3c;">Non Fungible NFT / Mint NFT</h4>
+                  <p class="card-description" style="color: #45ce3c;"> Create Non Fungible NFT and minting your NFT's </p>
+                  <div class="form-group">
+                    <label for="exampleInputName">NFT Owner Name</label>
+                    <input type="text" name="ownername" class="form-control" id="exampleInputName" placeholder="Batman">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputDestination">Destination Wallet</label>
+                      <input type="text" name="destination" class="form-control" id="exampleInputDestination" placeholder="0xD07193dC94661690401e0461Bc72B71bca102D29">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputAmounts">Amounts</label>
+                    <input type="text" name="qty" class="form-control" id="exampleInputAmounts" placeholder="1000">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2" formaction="instancemintnftprocs" name="formsee">Submit</button>
                 <!--<button class="btn btn-light">Cancel</button>-->
               </form>
                <!--Form End-->

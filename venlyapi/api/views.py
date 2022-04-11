@@ -1,17 +1,19 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 import requests, json
 from . module.getToken import getTokens
 from . module.getProfile import getprofile
 from . module.getChain import getchain
 from . module.getNftChain import getnftchain
 from . module.getWalletClient import clientdata
+from . module.instancenft import getContractNft
 import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from . models import CustomerInfo, ImageContractNft, TokenTypeNft, FungibleToken, MintNft, Profile
 from django.core.files.storage import FileSystemStorage
+
 
 
 # Create your views here.
@@ -330,6 +332,7 @@ def deploynft(request):
 
 def deploynftprocess(request):
     token = getTokens(HttpResponse)
+    #request = HttpRequest()
 
     if request.method == 'POST':
         #ImageContractNft.objects.get(title = request.POST['deployname'])
@@ -424,6 +427,7 @@ def deploynftprocess(request):
                 symbol = res['symbol'],
                 owner_name = str(contract_list_name)
             )  
+            return HttpResponse(response)
             return HttpResponseRedirect('deploynft', {'file_url': file_url}) 
           
     return HttpResponseRedirect('deploynft')
@@ -529,7 +533,7 @@ def createtokentypeprocess(request):
 
             resp = response.json()
 
-            print(resp)
+            print(resp)  
 
         except:
             if res['status'] == '500':
@@ -553,6 +557,7 @@ def createtokentypeprocess(request):
                 supply = resp['currentSupply'],
                 token_owner = name_value
                 )
+            return HttpResponse(resp)
             return HttpResponseRedirect('createtokentype', {'file_url': file1_url}) 
 
     else:
@@ -805,47 +810,29 @@ def instancemintnftprocs(request):
         current_user = request.user
 
         token = getTokens(HttpResponse)
-
-        pp = Profile.objects.get(user=current_user)
-        clientdata = CustomerInfo.objects.all()
-
-        test = request.POST.get('clientname')
-        print(test)
         
-        if request.POST.get('clientname') == '':
+        if request.method == 'POST':
+            contract_name = request.POST['deployname']
+            contract_desc = request.POST['deploydesc']
+            appsid = request.POST.get('appid')
+            chain_name = request.POST['deploychain']
+            wallet_address = request.POST['deployaddress']
+            site = request.POST['deploysite']
+            twitter = request.POST['deploytwitter']
+            linkedin = request.POST['deploylinkedin']
+            #if request.FILES['upload']:
+            uploads = request.FILES['upload']
+            fss = FileSystemStorage()
+            file = fss.save(uploads.name, uploads)
+            file_url = fss.url(file)   
+        
+            lists = [contract_name, contract_desc, appsid, chain_name, wallet_address, site,twitter,linkedin,file_url]
 
-            context = {
-            'datapp': pp.profile_image,
-            'client': clientdata,
-            }
+            getContractNft(lists)
 
-        elif request.POST.get('clientname') != '':
+            data = getContractNft(HttpRequest)
+            print(data)
 
-            nameclt = request.POST.get('clientname')
-            print (nameclt)
-            block = CustomerInfo.objects.filter(name=nameclt)
-
-            print(block)
-            context = {
-            'datapp': pp.profile_image,
-            'client': clientdata,
-            'namer': nameclt,
-            'chain': block
-            }
-        else:
-            #request.POST.get('deploychain') == '':
-            nameclt = request.POST.get('clientname')
-            chainclt = request.POST.get('deploychain')
-
-            clientdata = CustomerInfo.objects.filter(name=nameclt, secrettype=chainclt)
-            print(clientdata)
-
-            context = {
-            'datapp': pp.profile_image,
-            'client': clientdata,
-            'wallet':clientdata
-            }
-        return render(request, 'api/instancenftmint.html', context)
 
 #### Error Handling ####
 def error_404_view(request, exception):

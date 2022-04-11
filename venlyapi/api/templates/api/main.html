@@ -231,14 +231,20 @@
       window.onbeforeunload = function(){
         document.getElementsByClassName("loading")[0].style.display = "flex";
       }
-    </script>
-    <script>
-      function showDiv(divId, element)
-      {
-          document.getElementById(divId).style.display = element.value == 'True' ? 'block' : 'none';
-          document.getElementById(divId).style.display = element.value == 'False' ? 'block' : 'none';
-      }
-    </script>
 
+      function showDiv(){
+        getSelectValue = document.getElementById("selection").value;
+        if(getSelectValue == "1"){
+            document.getElementById("fungible").style.display="block";
+            document.getElementById("non_fungible").style.display="none";
+        }else if (getSelectValue == '2'){
+            document.getElementById("non_fungible").style.display="block";
+            document.getElementById("fungible").style.display="none";
+        } else {
+          document.getElementById("non_fungible").style.display="none";
+          document.getElementById("fungible").style.display="none";
+        }
+    }
+    </script>
   </body>
 </html>

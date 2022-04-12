@@ -30,6 +30,7 @@ urlpatterns = [
     path('updateprofile', views.updateprofile, name='updateprofile'),
     path('updatecredentials', views.updatecredentials, name='updatecredentials'),
     path('changepp', views.changepp, name='changepp'),
+    path('results/<int:pk>', views.showresults, name='showresults'),
 ]
 
 handler404 = 'api.views.error_404_view'

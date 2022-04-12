@@ -6,13 +6,13 @@ from . module.getProfile import getprofile
 from . module.getChain import getchain
 from . module.getNftChain import getnftchain
 from . module.getWalletClient import clientdata
-from . module.instancenft import getContractNft
 import yagmail
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from . models import CustomerInfo, ImageContractNft, TokenTypeNft, FungibleToken, MintNft, Profile
 from django.core.files.storage import FileSystemStorage
+from time import sleep
 
 
 
@@ -557,7 +557,6 @@ def createtokentypeprocess(request):
                 supply = resp['currentSupply'],
                 token_owner = name_value
                 )
-            return HttpResponse(resp)
             return HttpResponseRedirect('createtokentype', {'file_url': file1_url}) 
 
     else:
@@ -773,8 +772,17 @@ def instancemintnft(request):
 
         token = getTokens(HttpResponse)
 
+        nftchainx = getnftchain(HttpResponse)
+        n = []
+        for t in nftchainx:
+            n.append(t)
+            print(n)
+        
+
         pp = Profile.objects.get(user=current_user)
-        clientdata = CustomerInfo.objects.all()
+        #clientdata = CustomerInfo.objects.all()
+        clientdata = CustomerInfo.objects.filter(secrettype__in=n)
+        print(clientdata)
 
         test = request.POST.get('clientname')
         print(test)
@@ -791,15 +799,14 @@ def instancemintnft(request):
             nameclt = request.POST.get('clientname')
             print (nameclt)
             block = CustomerInfo.objects.filter(name=nameclt)
-            appid = Profile.objects.all()
-
-            print(block)
+            appid = Profile.objects.get(id=1)
+            
             context = {
             'datapp': pp.profile_image,
             'client': clientdata,
             'namer': nameclt,
             'chain': block,
-            'aplid': appid
+            'aplid': appid.appsid
             }
         else:
            HttpResponseRedirect('login')
@@ -810,7 +817,8 @@ def instancemintnftprocs(request):
         current_user = request.user
 
         token = getTokens(HttpResponse)
-        
+
+        # start deploy contract
         if request.method == 'POST':
             contract_name = request.POST['deployname']
             contract_desc = request.POST['deploydesc']
@@ -820,18 +828,290 @@ def instancemintnftprocs(request):
             site = request.POST['deploysite']
             twitter = request.POST['deploytwitter']
             linkedin = request.POST['deploylinkedin']
-            #if request.FILES['upload']:
             uploads = request.FILES['upload']
             fss = FileSystemStorage()
             file = fss.save(uploads.name, uploads)
             file_url = fss.url(file)   
         
-            lists = [contract_name, contract_desc, appsid, chain_name, wallet_address, site,twitter,linkedin,file_url]
+            print(appsid)
 
-            getContractNft(lists)
+            ImageContractNft.objects.create(
+            title = contract_name,
+            image = uploads,
+            chain = chain_name,
+            wallet = wallet_address,
+            site = site,
+            twitter = twitter,
+            linkedin = linkedin,
+            desc = contract_desc,
+            applicationId = appsid
+            )
 
-            data = getContractNft(HttpRequest)
-            print(data)
+            try:
+                url = "https://api-business-staging.arkane.network/api/apps/3b613051-4e10-479d-a75a-ee355541e5a0/contracts"
+
+                payload = json.dumps({
+                "name": "{}".format(contract_name),
+                "description": "{}".format(contract_desc),
+                "image": "{}".format(file_url),
+                "externalUrl": "{}".format(site),
+                "media": [
+                    {
+                    "type": "twitter",
+                    "value": "{}".format(twitter)
+                    },
+                    {
+                    "type": "linkedin",
+                    "value": "{}".format(linkedin)
+                    }
+                ],
+                "chain": "{}".format(chain_name),
+                "owner": "{}".format(wallet_address)
+                })
+
+                headers = {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer {}".format(token)
+                }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+
+                rest = response.json()
+                print(rest)
+                sleep(30)
+
+            except:
+                if rest['status'] == '500':
+                    return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+                elif rest['errorMessage'] == 'Transactional Execution Error':
+                    return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+                else:
+                    return HttpResponseRedirect('')
+            else:
+                responsex = ImageContractNft.objects.all()
+                customer = CustomerInfo.objects.all()
+
+                for i in responsex:
+                    wallet_address = i.wallet
+                    contract_list_name = CustomerInfo.objects.get(walletaddress = wallet_address)
+
+                print(contract_list_name)
+
+                ImageContractNft.objects.filter(title = request.POST['deployname']).update(
+                    contracts_id = rest['id'],
+                    hash = rest['transactionHash'],
+                    symbol = rest['symbol'],
+                    owner_name = str(contract_list_name)
+                )  
+
+                
+                #return HttpResponseRedirect('deploynft', {'file_url': file_url}) 
+                # end deploy contract
+
+                # start deploy create token type
+
+                if request.method == 'POST':
+                    token_name = request.POST['tokenname']
+                    token_contract_id = rest['id']
+                    token_appsid = request.POST.get('appid')
+                    external_url = request.POST['tokenexternalurl']
+                    background = request.POST['tokenbgcolor']
+                    att_type_token = request.POST['att-type-token']
+                    att_name_token = request.POST['att-name-token']
+                    att_value_token = request.POST['att-value-token']
+                    token_desc = request.POST['tokendesc']
+                    token_supply = request.POST['tokensupply']
+                    burnable = request.POST['deployburnable']
+                    token_type = request.POST['deploytypetoken']
+                    uploads = request.FILES['token-upload-img']
+                    fss = FileSystemStorage()
+                    file = fss.save(uploads.name, uploads)
+                    file1_url = fss.url(file)    
+                    
+
+                    TokenTypeNft.objects.create(
+                    name_token = token_name,
+                    token_image = file1_url,
+                    contract_id_token = token_contract_id,
+                    appsid_token = token_appsid,
+                    site_url = external_url,
+                    token_type_att = att_type_token,
+                    token_name_att = att_name_token,
+                    token_value_att = att_value_token,
+                    token_description = token_desc,
+                    token_bg = background
+                    )
+
+                try:
+                    url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/token-types".format(token_appsid,token_contract_id)
+
+                    payload = json.dumps({
+                    "name": "{}".format(token_name),
+                    "description": "{}".format(token_desc),
+                    "image": "{}".format(file1_url),
+                    "fungible" : token_type,
+                    "maxSupply" : "{}".format(token_supply),
+                    "burnable": burnable,
+                    "backgroundColor": "{}".format(background),
+                    "externalUrl": "{}".format(external_url),
+                    "attributes": [
+                        {
+                        "type": "{}".format(att_type_token),
+                        "name": "{}".format(att_name_token),
+                        "value": "{}".format(att_value_token)
+                        },
+                    ]
+                    })
+                    headers = {
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer {}".format(token)
+                    }
+
+                    response = requests.request("POST", url, headers=headers, data=payload)
+
+                    resp = response.json()
+
+                    print(resp)  
+                    sleep(30)
+
+                except:
+                    if res['status'] == '500':
+                        return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+                    elif res['errorMessage'] == 'Transactional Execution Error':
+                        return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+                else:
+                    responsed = TokenTypeNft.objects.all()
+
+                    owner_token_name = ImageContractNft.objects.get(contracts_id = token_contract_id)
+                    name_value = owner_token_name.owner_name
+                    print(name_value)
+
+                    TokenTypeNft.objects.filter(name_token = request.POST['tokenname']).update(
+                        token_type = resp['id'],
+                        token_hash = resp['transactionHash'],
+                        storage_url = resp['storage']['location'],
+                        type_storage = resp['storage']['type'],
+                        thumbnail_url = resp['imageThumbnail'],
+                        preview_url = resp['imagePreview'],
+                        supply = resp['currentSupply'],
+                        token_owner = name_value
+                        )
+                    # end deploy create token type
+                    
+                    # start fungible or non fungible token
+                    if token_type == 'true':
+
+                        token = getTokens(HttpResponse)
+
+                        if request.method == 'POST':
+                            appsid = request.POST.get('appid')
+                            contractid = rest['id']
+                            tokenid = resp['id']
+                            dest = request.POST['destination']
+                            amounts = request.POST['qty']
+                            ownernft = request.POST['ownername']
+
+                        try:
+                            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/tokens/fungible/{}".format(appsid,contractid,tokenid)
+
+                            payload = json.dumps({
+                            "destinations": [
+                                "{}".format(dest)
+                            ],
+                            "amounts": [
+                                amounts
+                            ]
+                            })
+                            headers = {
+                            'Content-Type': 'application/json',
+                            "Authorization": "Bearer {}".format(token)
+                            }
+
+                            response = requests.request("POST", url, headers=headers, data=payload)
+
+                            res = response.json()
+
+                            print(res)
+                            sleep(30)
+
+                        except:
+                            if res['status'] == '500':
+                                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+                            elif res['errorMessage'] == 'Transactional Execution Error':
+                                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+                            elif res['errorCode'] == 'fungible-minter-error':
+                                return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+                        else:
+                            #assettype = res['asset_contract']['media']['type']
+                            ##owner = res['asset_contract']['address']
+
+                            #print(assettype)
+
+                            FungibleToken.objects.create(
+                                application_id = appsid,
+                                contract_id = contractid,
+                                token_id = tokenid,
+                                destination = dest,
+                                supply = amounts,
+                                name = ownernft
+                            )
+
+                            return HttpResponseRedirect('fungibletokenlists')
+                    else:
+                        token = getTokens(HttpResponse)
+
+                        if request.method == 'POST':
+                            appsid = request.POST.get('appid')
+                            contractid = rest['id']
+                            tokenid = resp['id']
+                            dest = request.POST['destination']
+                            amounts = request.POST['qty']
+                            ownernft = request.POST['ownername']
+
+                        try:
+                            url = "https://api-business-staging.arkane.network/api/apps/{}/contracts/{}/types/{}/tokens".format(appsid,contractid,tokenid)
+
+                            payload = json.dumps({
+                            "destinations": [
+                                {
+                                "address": "{}".format(dest),
+                                "amount": amounts
+                                }
+                            ]
+                            })
+                            headers = {
+                            'Content-Type': 'application/json',
+                            "Authorization": "Bearer {}".format(token)
+                            }
+
+                            response = requests.request("POST", url, headers=headers, data=payload)
+
+                            res = response.json()
+
+                            print(res)
+                            sleep(30)
+
+                        except:
+                            if res['status'] == '500':
+                                return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
+                            elif res['errorMessage'] == 'Transactional Execution Error':
+                                return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+                            elif res['errorCode'] == 'fungible-minter-error':
+                                return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+                        else:
+                            #assettype = res['asset_contract']['media']['type']
+                            #print(assettype)
+
+                            MintNft.objects.create(
+                                application_id = appsid,
+                                contract_id = contractid,
+                                token_id = tokenid,
+                                destination = dest,
+                                supply = amounts,
+                                name = ownernft
+                            )
+
+                            return HttpResponseRedirect('mintnftlists')
 
 
 #### Error Handling ####
@@ -975,9 +1255,39 @@ def changepp(request):
             
             return render(request, 'api/changepp.html',context)
 
+def showresults(request, pk):
+     if request.user.is_authenticated:
+        current_user = request.user
 
+        token = getTokens(HttpResponse)
 
-        
+        pp = Profile.objects.get(user=current_user)
+        obj = CustomerInfo.objects.get(id=pk)
+
+        wallet_id = obj.walletid
+
+        url = "https://api-wallet-staging.venly.io/api/wallets/{}".format(wallet_id)
+
+        payload={}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        resm = response.json()
+        resmx = json.loads(resm)
+
+        print(resm)
+
+        context = {
+                'datapp': pp.profile_image,
+                'data': obj,
+                'details': resmx
+            }
+
+        return render(request, 'api/results.html', context)
 
         
 

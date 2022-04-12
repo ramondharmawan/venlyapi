@@ -234,10 +234,10 @@
 
       function showDiv(){
         getSelectValue = document.getElementById("selection").value;
-        if(getSelectValue == "1"){
+        if(getSelectValue == "true"){
             document.getElementById("fungible").style.display="block";
             document.getElementById("non_fungible").style.display="none";
-        }else if (getSelectValue == '2'){
+        }else if (getSelectValue == 'false'){
             document.getElementById("non_fungible").style.display="block";
             document.getElementById("fungible").style.display="none";
         } else {

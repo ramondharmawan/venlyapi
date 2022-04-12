@@ -1,0 +1,39 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Wallet Info </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Info</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Wallet</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Wallet Name / Client Name </h4>
+                    <p class="card-description"> <b>{{data.name}}</b></p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <address class="text-success">
+                            {% for x in details %}
+                            <p class="font-weight-bold"> E-mail </p>
+                            <p class="mb-2"> {{x}} </p>
+                            <p class="font-weight-bold"> Web Address </p>
+                            <p> www.Purple.com </p>
+                            {% endfor %}
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock maincontent %}

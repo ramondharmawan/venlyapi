@@ -171,7 +171,9 @@
                             <td>{{f.walletaddress}}</td>
                             <td>{{f.creating}}</td>
                             <td>
-                              <div class="badge badge-success p-2">Success</div>
+                              <a href="{% url 'showresults' pk=f.id %}">
+                                <div class="badge badge-success p-2">Details</div>
+                              </a>
                             </td>
                           </tr>
                           {% endfor %}

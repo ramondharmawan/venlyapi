@@ -40,7 +40,7 @@
                       <td> {{i.destination}} </td>
                       <td> {{i.supply}}</td>
                       <td> {{i.token_id}} </td>
-                      <td> More </td>
+                      <td> <a href="{% url 'showresulttokenmetanonfungible' pk=i.id %}">More</a> </td>
                     </tr>
                     {% endfor %}
                     <!--

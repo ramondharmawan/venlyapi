@@ -40,7 +40,7 @@
                       <td> {{i.contracts_id}} </td>
                       <td> {{i.symbol}}</td>
                       <td> {{i.hash}} </td>
-                      <td> See More </td>
+                      <td> <a href="{% url 'showresultcontract' pk=i.id %}">See More</a> </td>
                     </tr>
                     {% endfor %}
                   </tbody>

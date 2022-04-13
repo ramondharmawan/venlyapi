@@ -1,0 +1,180 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Token Info </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Info</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Token</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Wallet Name / Client Name </h4>
+                    <p class="card-description"> <b>{{data.name_token}}</b> by <i>{{data.token_owner}}</i></p>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <address class="text-success">
+
+                            <p class="font-weight-bold" {% if details.id is none %} style="display:none;" {% endif %}> 
+                              Token ID
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.id }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.confirmed is none %} style="display:none;" {% endif %}> 
+                              Confirmed
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.confirmed }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.name is none %} style="display:none;" {% endif %}> 
+                              Token Name
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.name }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.description is none %} style="display:none;" {% endif %}> 
+                                Description
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.description }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.image is none %} style="display:none;" {% endif %}> 
+                                Image URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.image }} 
+                              </p>
+                            
+                            <p class="font-weight-bold" {% if details.imageThumbnail is none %} style="display:none;" {% endif %}> 
+                                Image Thumbnail URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.imageThumbnail }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.imagePreview is none %} style="display:none;" {% endif %}> 
+                                image Preview URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.imagePreview }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.externalUrl is none %} style="display:none;" {% endif %}> 
+                              External URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.externalUrl }} 
+                              </p>
+                              
+                            <p class="font-weight-bold" {% if details.backgroundColor is none %} style="display:none;" {% endif %}> 
+                              Background Color
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.backgroundColor }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.fungible is none %} style="display:none;" {% endif %}> 
+                              Fungible
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.fungible }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.burnable is none %} style="display:none;" {% endif %}> 
+                              Burnable
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.burnable }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.maxSupply is none %} style="display:none;" {% endif %}> 
+                                Max Supply
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.maxSupply }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.currentSupply is none %} style="display:none;" {% endif %}> 
+                                Current Supply
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.currentSupply }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.transactionHash is none %} style="display:none;" {% endif %}> 
+                                Transaction Hash
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.transactionHash }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.storage.type is none %} style="display:none;" {% endif %}> 
+                                Storage Type
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.storage.type }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.storage.location is none %} style="display:none;" {% endif %}> 
+                                Storage Location
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.storage.location }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.animationUrls.type is none %} style="display:none;" {% endif %}> 
+                                Animation URL
+                            </p>
+                              {% for item in items_animate %}
+                              <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}" 
+                              </p>
+                              {% endfor %}
+
+                              <p class="font-weight-bold" {% if details.attributes is none %} style="display:none;" {% endif %}> 
+                                Attributes
+                            </p>
+                              {% for item in items_atts %}
+                              <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Name: </label>
+                                "{{ item.name }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}"
+                              </p> <br> <br>
+                              {% endfor %}
+
+                            </address>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock maincontent %}

@@ -22,14 +22,153 @@
                     <p class="card-description"> <b>{{data.name}}</b></p>
                     <div class="row">
                         <div class="col-md-12">
+
                             <address class="text-success">
-                            {% for x in details %}
-                            <p class="font-weight-bold"> E-mail </p>
-                            <p class="mb-2"> {{x}} </p>
-                            <p class="font-weight-bold"> Web Address </p>
-                            <p> www.Purple.com </p>
-                            {% endfor %}
+                            {% if details.success == True %}
+
+                            <p class="font-weight-bold" {% if details.result.id is none %} style="display:none;" {% endif %}> 
+                              Wallet ID 
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.id }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.address is none %} style="display:none;" {% endif %}> 
+                              Wallet Address 
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.address }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.walletType is none %} style="display:none;" {% endif %}> 
+                              Wallet Type 
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.walletType }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.secretType is none %} style="display:none;" {% endif %}> 
+                              Secret Type / BlockChain 
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.secretType }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.createdAt is none %} style="display:none;" {% endif %}> 
+                              Created At
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.createdAt }} 
+                              </p>
+                            
+                            <p class="font-weight-bold" {% if details.result.archived is none %} style="display:none;" {% endif %}> 
+                              Archived
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.archived }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.description is none %} style="display:none;" {% endif %}> 
+                              Description
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.description }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.primary is none %} style="display:none;" {% endif %}> 
+                              Primary
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.primary }} 
+                              </p>
+                              
+                            <p class="font-weight-bold" {% if details.result.hasCustomPin is none %} style="display:none;" {% endif %}> 
+                              Has Custom Pin
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.hasCustomPin }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.identifier is none %} style="display:none;" {% endif %}> 
+                              Identifier
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.identifier }} 
+                              </p>
+                              
+                            <br>
+                            <p class="card-description"> <b>Balance</b></p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.available is none %} style="display:none;" {% endif %}> 
+                              Balance Availablity
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.available }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.secretType is none %} style="display:none;" {% endif %}> 
+                              Balance Secret Type
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.secretType }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.balance is none %} style="display:none;" {% endif %}> 
+                              Balance
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.balance }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.gasBalance is none %} style="display:none;" {% endif %}> 
+                              Gas Balance
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.gasBalance }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.symbol is none %} style="display:none;" {% endif %}> 
+                              Symbol
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.symbol }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.gasSymbol is none %} style="display:none;" {% endif %}> 
+                              Gas Symbol
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.gasSymbol }} 
+                              </p>
+                            
+                            <p class="font-weight-bold" {% if details.result.balance.rawBalance is none %} style="display:none;" {% endif %}> 
+                              Raw Balance
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.rawBalance }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.rawGasBalance is none %} style="display:none;" {% endif %}> 
+                              Raw Gas Balance
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.rawGasBalance }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.result.balance.decimals is none %} style="display:none;" {% endif %}> 
+                              Decimals
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.result.balance.decimals }} 
+                              </p>
+
+                            
+                            {% else %}
+                            <p> Whoop! something Wrong </p>
+                           
+                            {% endif %}
                             </address>
+
                         </div>
                     </div>
                 </div>

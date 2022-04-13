@@ -31,6 +31,10 @@ urlpatterns = [
     path('updatecredentials', views.updatecredentials, name='updatecredentials'),
     path('changepp', views.changepp, name='changepp'),
     path('results/<int:pk>', views.showresults, name='showresults'),
+    path('result-contract/<int:pk>', views.showresultcontract, name='showresultcontract'),
+    path('result-token/<int:pk>', views.showresulttoken, name='showresulttoken'),
+    path('result-token-metadata-fungible/<int:pk>', views.showresulttokenmetafungible, name='showresulttokenmetafungible'),
+    path('result-token-metadata-nonfungible/<int:pk>', views.showresulttokenmetanonfungible, name='showresulttokenmetanonfungible'),
 ]
 
 handler404 = 'api.views.error_404_view'

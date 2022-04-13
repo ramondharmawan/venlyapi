@@ -42,7 +42,7 @@
                       <td> {{i.token_type}} </td>
                       <td> {{i.token_owner}}</td>
                       <td> {{i.token_hash}} </td>
-                      <td> More </td>
+                      <td> <a href="{% url 'showresulttoken' pk=i.id %}">More</a> </td>
                     </tr>
                     {% endfor %}
                     <!--

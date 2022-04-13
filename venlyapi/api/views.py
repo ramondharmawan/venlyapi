@@ -1277,18 +1277,186 @@ def showresults(request, pk):
         response = requests.request("GET", url, headers=headers, data=payload)
 
         resm = response.json()
-        resmx = json.loads(resm)
 
         print(resm)
 
         context = {
                 'datapp': pp.profile_image,
                 'data': obj,
-                'details': resmx
+                'details': resm
             }
 
         return render(request, 'api/results.html', context)
 
-        
+def showresultcontract(request, pk):
+     if request.user.is_authenticated:
+        current_user = request.user
 
+        token = getTokens(HttpResponse)
+
+        pp = Profile.objects.get(user=current_user)
+        obj = ImageContractNft.objects.get(id=pk)
+
+        contractx_id = obj.contracts_id
+        appsx_id = pp.appsid
+
+        url = "https://api-business-staging.venly.io/api/apps/{}/contracts/{}".format(appsx_id,contractx_id)
+
+        payload={}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        contract = response.json()
+
+        print(contract)
+
+        context = {
+                'datapp': pp.profile_image,
+                'data': obj,
+                'details': contract
+            }
+
+        return render(request, 'api/result-contract.html', context)
         
+def showresulttoken(request, pk):
+     if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        pp = Profile.objects.get(user=current_user)
+        obj = TokenTypeNft.objects.get(id=pk)
+
+        contractx_id = obj.contract_id_token
+        tokentype_id = obj.token_type
+        appx_id = pp.appsid
+
+        url = "https://api-business-staging.venly.io/api/apps/{}/contracts/{}/token-types/{}".format(appx_id,contractx_id,tokentype_id)
+
+        payload={}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        contract = response.json()
+
+        items1 = contract['animationUrls']
+        items2 = contract['attributes']
+
+        print(contract)
+
+        context = {
+                'datapp': pp.profile_image,
+                'data': obj,
+                'details': contract,
+                'items_animate': items1,
+                'items_atts': items2
+            }
+
+        return render(request, 'api/result-token.html', context)
+        
+def showresulttokenmetafungible(request, pk):
+     if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        pp = Profile.objects.get(user=current_user)
+        obj = FungibleToken.objects.get(id=pk)
+        objx = TokenTypeNft.objects.get(contract_id_token = obj.contract_id) 
+
+        contractx_id = obj.contract_id
+        tokenx_id = obj.token_id
+        appx_id = pp.appsid
+
+        url = "https://api-business-staging.venly.io/api/apps/{}/contracts/{}/token-types/{}/metadata".format(appx_id,contractx_id,tokenx_id)
+
+        payload={}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        contract = response.json()
+
+        items1 = contract['animationUrls']
+        items2 = contract['attributes']
+        items3 = contract['properties']
+        items4 = contract['contract']['media']
+        items5 = contract['asset_contract']['media']
+
+
+        print(contract)
+
+        context = {
+                'datapp': pp.profile_image,
+                'data': obj,
+                'data_name': objx.token_owner,
+                'details': contract,
+                'items_animate': items1,
+                'items_atts': items2,
+                'items_props': items3,
+                'items_conme': items4,
+                'items_asconme': items5
+            }
+
+        return render(request, 'api/result-token-metadata.html', context)
+
+
+def showresulttokenmetanonfungible(request, pk):
+     if request.user.is_authenticated:
+        current_user = request.user
+
+        token = getTokens(HttpResponse)
+
+        pp = Profile.objects.get(user=current_user)
+        obj = MintNft.objects.get(id=pk)
+        objx = TokenTypeNft.objects.get(contract_id_token = obj.contract_id) 
+
+        contractx_id = obj.contract_id
+        tokenx_id = obj.token_id
+        appx_id = pp.appsid
+
+        url = "https://api-business-staging.venly.io/api/apps/{}/contracts/{}/token-types/{}/metadata".format(appx_id,contractx_id,tokenx_id)
+
+        payload={}
+        headers = {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer {}".format(token)
+        }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+
+        contract = response.json()
+
+        items1 = contract['animationUrls']
+        items2 = contract['attributes']
+        items3 = contract['properties']
+        items4 = contract['contract']['media']
+        items5 = contract['asset_contract']['media']
+
+
+        print(objx.token_owner)
+
+        context = {
+                'datapp': pp.profile_image,
+                'data': obj,
+                'data_name': objx.token_owner,
+                'details': contract,
+                'items_animate': items1,
+                'items_atts': items2,
+                'items_props': items3,
+                'items_conme': items4,
+                'items_asconme': items5
+            }
+
+        return render(request, 'api/result-token-metadata.html', context)

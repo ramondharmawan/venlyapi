@@ -102,157 +102,56 @@ def createwalletoption(request):
             print(answer) 
             return render(request, 'api/walletcreation.html')   
 
-
 def walletcreation(request):
     token = getTokens(HttpResponse)
 
-    req = CustomerInfo.objects.filter(email=request.POST.get('email'))
-    req1 = CustomerInfo.objects.filter(name=request.POST.get('username'))
+    if request.method == 'POST':
+        desc = request.POST['desc']
+        username = request.POST['username']
+        email = request.POST['email']
+        secrettype = request.POST['secrettype']
+        wallettype = request.POST['wallettype']
+        pincode = request.POST['pincode']
 
+        url = "https://api-staging.arkane.network/api/wallets"
 
-    if req is None:
-        if request.method == 'POST':
-            desc = request.POST['desc']
-            username = request.POST['username']
-            email = request.POST['email']
-            secrettype = request.POST['secrettype']
-            wallettype = request.POST['wallettype']
-            pincode = request.POST['pincode']
+        payload = json.dumps({
+        "pincode": pincode,
+        "description": desc,
+        "identifier": "type=unrecoverable",
+        "secretType": secrettype,
+        "walletType": wallettype
+        })
 
-            url = "https://api-staging.arkane.network/api/wallets"
+        headers = {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer {}".format(token)
+        }
 
-            payload = json.dumps({
-            "pincode": pincode,
-            "description": desc,
-            "identifier": "type=unrecoverable",
-            "secretType": secrettype,
-            "walletType": wallettype
-            })
+        response = requests.request("POST", url, headers=headers, data=payload)
+        res = response.json()
 
-            headers = {
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer {}".format(token)
-            }
+        print(res)
 
-            response = requests.request("POST", url, headers=headers, data=payload)
-            res = response.json()
+        walletid = res["result"]["id"]
+        walletaddress = res["result"]["address"]
+        creating = res["result"]["createdAt"]
 
-            walletid = res["result"]["id"]
-            walletaddress = res["result"]["address"]
-            creating = res["result"]["createdAt"]
+        CustomerInfo.objects.create(
+        name=username,
+        email=email,
+        description=desc,
+        secrettype=secrettype,
+        wallettype=wallettype,
+        pincode=pincode,
+        walletid=walletid,
+        walletaddress=walletaddress,
+        )
 
-            CustomerInfo.objects.create(
-            name=username,
-            email=email,
-            description=desc,
-            secrettype=secrettype,
-            wallettype=wallettype,
-            pincode=pincode,
-            walletid=walletid,
-            walletaddress=walletaddress,
-            )
-
-            return HttpResponseRedirect("dashboard")
-        else:
-            return HttpResponseRedirect("dashboard")
-    elif req1 is not None:
         return HttpResponseRedirect("dashboard")
     else:
-        try:
-            asem = CustomerInfo.objects.get(email=request.POST.get('email'))
-            print(asem)
-        except:
-            asem = CustomerInfo.objects.filter(email=request.POST.get('email')).values_list('secrettype', flat=True)
-            for i in asem:
-                if request.POST.get('secrettype') == i:
-                    return redirect('dashboard')
-                else:
-                    desc = request.POST.get('desc')
-                    username = request.POST.get('username')
-                    email = request.POST.get('email')
-                    secrettype = request.POST.get('secrettype')
-                    wallettype = request.POST.get('wallettype')
-                    pincode = request.POST.get('pincode')
+        return HttpResponseRedirect("")
 
-                    url = "https://api-staging.arkane.network/api/wallets"
-
-                    payload = json.dumps({
-                    "pincode": pincode,
-                    "description": desc,
-                    "identifier": "type=unrecoverable",
-                    "secretType": secrettype,
-                    "walletType": wallettype
-                    })
-
-                    headers = {
-                    'Content-Type': 'application/json',
-                    "Authorization": "Bearer {}".format(token)
-                    }
-
-                    response = requests.request("POST", url, headers=headers, data=payload)
-                    res = response.json()
-
-                    walletid = res["result"]["id"]
-                    walletaddress = res["result"]["address"]
-                    creating = res["result"]["createdAt"]
-
-                    CustomerInfo.objects.create(
-                    name=username,
-                    email=email,
-                    description=desc,
-                    secrettype=secrettype,
-                    wallettype=wallettype,
-                    pincode=pincode,
-                    walletid=walletid,
-                    walletaddress=walletaddress,
-                    )
-
-                    return HttpResponseRedirect("dashboard")
-        else:
-            if asem.secrettype == request.POST.get('secrettype'):
-                return redirect('dashboard')
-            else:
-                desc = request.POST.get('desc')
-                username = request.POST.get('username')
-                email = request.POST.get('email')
-                secrettype = request.POST.get('secrettype')
-                wallettype = request.POST.get('wallettype')
-                pincode = request.POST.get('pincode')
-
-                url = "https://api-staging.arkane.network/api/wallets"
-
-                payload = json.dumps({
-                "pincode": pincode,
-                "description": desc,
-                "identifier": "type=unrecoverable",
-                "secretType": secrettype,
-                "walletType": wallettype
-                })
-
-                headers = {
-                'Content-Type': 'application/json',
-                "Authorization": "Bearer {}".format(token)
-                }
-
-                response = requests.request("POST", url, headers=headers, data=payload)
-                res = response.json()
-
-                walletid = res["result"]["id"]
-                walletaddress = res["result"]["address"]
-                creating = res["result"]["createdAt"]
-
-                CustomerInfo.objects.create(
-                name=username,
-                email=email,
-                description=desc,
-                secrettype=secrettype,
-                wallettype=wallettype,
-                pincode=pincode,
-                walletid=walletid,
-                walletaddress=walletaddress,
-                )
-
-                return HttpResponseRedirect("dashboard")
     #for i in req:
     #    details = CustomerInfo.objects.get(name=i.name)
     #    if details.email == request.POST.get('email'):    
@@ -405,12 +304,14 @@ def deploynftprocess(request):
 
         except:
             #return render(request,'api/deploynft.html', {'error':'Something is wrong'})
-            if res['status'] == '500':
+            if res is None:
+                return HttpResponseRedirect('serverError')
+            elif res['status'] == '500':
                 return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
             elif res['errorMessage'] == 'Transactional Execution Error':
                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
             else:
-                return HttpResponseRedirect('')
+                return HttpResponseRedirect('serverError')
         else:
             responsex = ImageContractNft.objects.all()
             customer = CustomerInfo.objects.all()
@@ -540,6 +441,8 @@ def createtokentypeprocess(request):
                 return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
             elif res['errorMessage'] == 'Transactional Execution Error':
                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+            else:
+                return HttpResponseRedirect('serverError')
         else:
             responsed = TokenTypeNft.objects.all()
 
@@ -642,6 +545,8 @@ def createfungible(request):
                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
             elif res['errorCode'] == 'fungible-minter-error':
                 return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+            else:
+                return HttpResponseRedirect('serverError')
         else:
             assettype = res['asset_contract']['media']['type']
             #owner = res['asset_contract']['address']
@@ -734,6 +639,8 @@ def processmintnft(request):
                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
             elif res['errorCode'] == 'fungible-minter-error':
                 return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+            else:
+                return HttpResponseRedirect('serverError')
         else:
             #assettype = res['asset_contract']['media']['type']
             #print(assettype)
@@ -886,7 +793,7 @@ def instancemintnftprocs(request):
                 elif rest['errorMessage'] == 'Transactional Execution Error':
                     return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
                 else:
-                    return HttpResponseRedirect('')
+                    return HttpResponseRedirect('serverError')
             else:
                 responsex = ImageContractNft.objects.all()
                 customer = CustomerInfo.objects.all()
@@ -979,6 +886,8 @@ def instancemintnftprocs(request):
                         return HttpResponseRedirect('dashboard', {'error': 'Server Error'})
                     elif res['errorMessage'] == 'Transactional Execution Error':
                         return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
+                    else:
+                        return HttpResponseRedirect('serverError')    
                 else:
                     responsed = TokenTypeNft.objects.all()
 
@@ -1041,6 +950,8 @@ def instancemintnftprocs(request):
                                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
                             elif res['errorCode'] == 'fungible-minter-error':
                                 return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+                            else:
+                                return HttpResponseRedirect('serverError')
                         else:
                             #assettype = res['asset_contract']['media']['type']
                             ##owner = res['asset_contract']['address']
@@ -1098,6 +1009,8 @@ def instancemintnftprocs(request):
                                 return HttpResponseRedirect('dashboard', {'error': 'Transactional Execution Error'})
                             elif res['errorCode'] == 'fungible-minter-error':
                                 return HttpResponseRedirect('dashboard', {'error': 'Cannot mint fungible for non-fungible token type'})
+                            else:
+                                return HttpResponseRedirect('serverError')
                         else:
                             #assettype = res['asset_contract']['media']['type']
                             #print(assettype)
@@ -1347,6 +1260,8 @@ def showresulttoken(request, pk):
 
         contract = response.json()
 
+
+
         items1 = contract['animationUrls']
         items2 = contract['attributes']
 
@@ -1358,9 +1273,10 @@ def showresulttoken(request, pk):
                 'details': contract,
                 'items_animate': items1,
                 'items_atts': items2
-            }
+        }
 
         return render(request, 'api/result-token.html', context)
+
         
 def showresulttokenmetafungible(request, pk):
      if request.user.is_authenticated:
@@ -1460,3 +1376,7 @@ def showresulttokenmetanonfungible(request, pk):
             }
 
         return render(request, 'api/result-token-metadata.html', context)
+
+
+def serverError(request):
+    return render(request,'api/error.html')

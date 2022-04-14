@@ -35,6 +35,7 @@ urlpatterns = [
     path('result-token/<int:pk>', views.showresulttoken, name='showresulttoken'),
     path('result-token-metadata-fungible/<int:pk>', views.showresulttokenmetafungible, name='showresulttokenmetafungible'),
     path('result-token-metadata-nonfungible/<int:pk>', views.showresulttokenmetanonfungible, name='showresulttokenmetanonfungible'),
+    path('server-venly-error', views.serverError, name='serverError')
 ]
 
 handler404 = 'api.views.error_404_view'

@@ -1,0 +1,72 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title"> Profile Picture </h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Profile</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Change Current Images</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <p>
+              {% if error %}
+                {{ error }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"> Profile Picture</h4>
+            <p class="card-description"> Change Profile Picture </p>
+            <div>
+              <!--<img class="img-md rounded-circle" src="{% static 'images/faces/face8.jpg' %}" alt="Profile image">-->
+              <img class="img-md rounded-circle" src="{{datapp}}" alt="Profile image">
+            </div>
+            <br>
+            <form class="forms-sample" action="{% url 'changepp' %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group" id="field">
+                <label>File upload</label>
+                <input type="file" class="form-control" name="imagespp" accept="image/*" id="formFile">
+              </div>
+              <button id="actions" type="submit" class="btn btn-primary mr-2">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- this is end div class row -->
+  </div>
+      <!-- content-wrapper ends -->
+{% endblock maincontent %}
+
+<!--<h1>API Starter</h1>
+<form action="{% url 'getprofile' %}" method="POST">
+{% csrf_token %}
+  <label for="url">URL:</label><br>
+  <input type="text" id="url" name="url" placeholder="Put your link here"><br><br>
+  <label for="gtype">Grant Type:</label><br>
+  <input type="text" id="gtipe" name="gtipe" placeholder="client_credential"><br><br>
+  <label for="Cid">Client Id:</label><br>
+  <input type="text" id="Cid" name="Cid" placeholder="Your Id"><br><br>
+  <label for="Csecret">Client Secret:</label><br>
+  <input type="text" id="Csecret" name="Csecret" placeholder="Your Secret"><br><br>
+<button type="submit" name='getprofile'>Result</button>
+</form>
+-->
+

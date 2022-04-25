@@ -1,0 +1,259 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+    
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+  
+            <div class="row">
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">NFT Profile</h4>
+                    <div class="aligner-wrapper">
+                      <!-- start error message -->
+                        <p>
+                          {% if error %}
+                            {{ error }}
+                          {% endif %}
+                        </p>
+                      <!-- end error message -->
+                        <div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label" for="auth-username">User</label>
+                                <div class="col-sm-9 form-row align-items-center">
+                                    <div class="col-auto" id="auth-username">{{nickname}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label" for="client-id">Client Id</label>
+                                <div class="col-sm-9 form-row align-items-center">
+                                    <div class="col-auto" id="client-id">{{user_id}}</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="auth-token">Bearer token</label>
+                                <textarea class="form-control" disabled="disabled" id="auth-token" rows="3">{{bearer}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper mt-4 d-flex flex-wrap align-items-cente">
+                      <div class="d-flex">
+                        <span class="square-indicator bg-danger ml-2"></span>
+                        <p class="mb-0 ml-2">Assigned</p>
+                      </div>
+                      <div class="d-flex">
+                        <span class="square-indicator bg-success ml-2"></span>
+                        <p class="mb-0 ml-2">Not Assigned</p>
+                      </div>
+                      <div class="d-flex">
+                        <span class="square-indicator bg-warning ml-2"></span>
+                        <p class="mb-0 ml-2">Reassigned</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body performane-indicator-card">
+                    <div class="d-sm-flex">
+                      <h4 class="card-title flex-shrink-1">Wallets</h4>
+                    </div>
+                    <div class="d-sm-flex flex-wrap">
+
+                      <form method="POST" action="{% url 'walletcreation' %}">
+                        {% csrf_token %}
+                    
+                        <label for="usernamewall">Username: *</label><br>
+                        <input type="text" id="usernameid" name="username" placeholder="heyho" required><br><br>
+                    
+                        <label for="emailwall">Email Address: *</label><br>
+                        <input type="text" id="emailid" name="email" placeholder="yourmail@gmail.com" required><br><br>
+                    
+                        <label for="desc">Description:</label><br>
+                        <input type="text" id="descid" name="desc" placeholder="My first unrecoverable wallet"><br><br>
+                    
+                        <label for="secrettype"></label>
+                        <select name="secrettype" id="secrettypeid">
+                          {% for chain in chaintoken %}
+                            <option value="{{chain}}">{{chain}}</option>
+                          {% endfor %}
+                        </select> <br><br>
+                    
+                        <label for="wallettype"></label>
+                        <select name="wallettype" id="wallettypeid">
+                            <option value="WHITE_LABEL">White Label</option>
+                            <option value="UNRECOVERABLE_WHITE_LABEL">Unrecoverable White Label</option>
+                        </select>
+                        <p><i>White label = Wallet that can be recovered in case the pin is lost</i></p>
+                        <p><i>Uncoverable = Wallet that can not be recovered if the pin is lost</i></p>
+                    
+                        <label for="pincode">Pincode: *</label><br>
+                        <input type="number" id="pincode" name="pincode" placeholder="12345" required><br><br>
+                    
+                        <button type="submit">Create Wallet</button>
+                    </form>
+
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Report Summary Start-->
+            
+            <!-- Report Summary ends-->
+            <!-- Wallet Start-->
+            <div class="row">
+                {% include '../addhtml/createwallet.html' %}
+            </div>
+              <!-- Wallet ends-->
+              <!-- Quick Action Toolbar Starts-->
+            <div class="row quick-action-toolbar">
+              <div class="col-md-12 grid-margin">
+                <div class="card">
+                  <div class="card-header d-block d-md-flex">
+                    <h5 class="mb-0">NFT Creation</h5>
+                    <p class="ml-auto mb-0">Step to create NFT<i class="icon-bulb"></i></p>
+                  </div>
+                  <div class="d-md-flex row m-0 quick-action-btns" role="group" aria-label="Quick action buttons">
+                    <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/deploynft';" class="btn px-0"> <i class="icon-user mr-2"></i> Deploy NFT</button>
+                    </div>
+                    <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/createtokentype';" class="btn px-0"><i class="icon-docs mr-2"></i> Create Token</button>
+                    </div>
+                    <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/mintnft';" class="btn px-0"><i class="icon-folder mr-2"></i> Create Non-fungible Token</button>
+                    </div>
+                    <div class="col-sm-6 col-md-3 p-3 text-center btn-wrapper">
+                      <button type="button" onclick="window.location.href='http://127.0.0.1:8000/mintnft';" class="btn px-0"><i class="icon-book-open mr-2"></i>Mint NFT</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Quick Action Toolbar Ends-->
+              <!-- expenses summary start -->
+            
+            <!-- expenses summary start -->
+            <div class="row">
+              <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-sm-flex align-items-center mb-4">
+                      <h4 class="card-title mb-sm-0">NFT Client Data</h4>
+                      <a href="#" class="text-dark ml-auto mb-3 mb-sm-0"> View all Client</a>
+                    </div>
+                    <div class="table-responsive border rounded p-1">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="font-weight-bold">Client Name</th>
+                            
+                            <th class="font-weight-bold">Blockchain</th>
+                            <th class="font-weight-bold">Wallet Type</th>
+                            <th class="font-weight-bold">Wallet Address</th>
+                            <th class="font-weight-bold">Created at</th>
+                            <th class="font-weight-bold">Status</th>
+                          
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for cd in page_obj %}
+                          <tr>
+                            <td>
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face1.jpg' %}" alt="profile image"> {{f.name}}
+                            </td>
+                            <td>{{cd}}</td>
+                           
+                            <td>{{cd.wallettype}}</td>
+                            <td>{{cd.walletaddress}}</td>
+                            <td>{{cd.creating}}</td>
+                            <td>
+                              <a href="{% url 'showresults' pk=cd.id %}">
+                                <div class="badge badge-success p-2">Details</div>
+                              </a>
+                            </td>
+                          
+                          </tr>
+                          {% endfor %}
+                          <!--
+                          <tr>
+                            <td>
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face2.jpg' %}" alt="profile image"> Minnie Copeland
+                            </td>
+                            <td>$6245</td>
+                            <td><img src="{% static 'images/dashboard/paypal.png' %}" alt="alipay" class="gateway-icon mr-2"> Paypal</td>
+                            <td>25 Sep 2019</td>
+                            <td>07 Oct 2019</td>
+                            <td>
+                              <div class="badge badge-danger p-2">Pending</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face3.jpg' %}" alt="profile image"> Rodney Sims
+                            </td>
+                            <td>$9265</td>
+                            <td><img src="{% static 'images/dashboard/alipay.png' %}" alt="alipay" class="gateway-icon mr-2"> alipay</td>
+                            <td>12 dec 2019</td>
+                            <td>26 Aug 2019</td>
+                            <td>
+                              <div class="badge badge-warning p-2">Failed</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <img class="img-sm rounded-circle" src="{% static 'images/faces/face4.jpg' %}" alt="profile image"> Carolyn Barker
+                            </td>
+                            <td>$2263</td>
+                            <td><img src="{% static 'images/dashboard/alipay.png' %}" alt="alipay" class="gateway-icon mr-2"> alipay</td>
+                            <td>30 Sep 2019</td>
+                            <td>20 Oct 2019</td>
+                            <td>
+                              <div class="badge badge-success p-2">Paid</div>
+                            </td>
+                          </tr>
+                          -->
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="d-flex mt-4 flex-wrap">
+                      <p class="text-muted">Showing {{page_obj.number}} from {{pgt.num_pages}} of {{pgt.count}} entries</p>
+                      <nav class="ml-auto">
+                        <ul class="pagination separated pagination-info">
+                          {% if page_obj.has_previous %}
+                          <li class="page-item">
+                            <a href="{% url 'dashboard' page_obj.previous_page_number %}" class="page-link"><i class="icon-arrow-left"></i></a>
+                          </li>
+                          {% endif%}
+                          {% for page_number in page_obj.paginator.page_range %}
+                          <li class="page-item {% if page_number == page_obj.number %}active{% endif %}">
+                            <a href="{% url 'dashboard' page_number %}" class="page-link">{{page_number}}</a>
+                          </li>
+                          <!--
+                          <li class="page-item"><a href="#" class="page-link">2</a></li>
+                          <li class="page-item"><a href="#" class="page-link">3</a></li>
+                          <li class="page-item"><a href="#" class="page-link">4</a></li>
+                          -->
+                          {% endfor %}
+                          {% if page_obj.has_next %}
+                          <li class="page-item">
+                            <a href="{% url 'dashboard' page_obj.next_page_number %}" class="page-link"><i class="icon-arrow-right"></i></a>
+                          </li>
+                          {% endif%}
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+         
+    {% endblock maincontent %}

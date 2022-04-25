@@ -1,0 +1,398 @@
+{% load static %}
+
+<!--<div class="bg-light py-5 auth-logged-in">
+    <div class="container">
+        <div class="row"> -->
+{% block createwallet %}
+
+            <div class="col-md-12 mb-4">
+                <!--<div class="mb-5 row" id="wallet-management">-->
+                    <h4 class="mb-3 col-12">Wallets</h4>
+                    <!--
+                    <div class="col-12 col-md-6">
+                        
+                        <button type="button" id="link-wallets" class="btn btn-outline-primary">
+                            Link Wallets
+                        </button>
+                        <button type="button" id="claim-wallets" class="btn btn-outline-primary">
+                            Claim Wallets
+                        </button>
+                        
+                    </div>
+                    -->
+                <!--</div>-->
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="nav-BITCOIN-tab" data-toggle="tab" href=".tab-pane#tab-BITCOIN" role="tab" aria-controls="tab-BITCOIN"
+                           aria-selected="false">Bitcoin</a>
+                        <a class="nav-item nav-link" id="nav-ETHEREUM-tab" data-toggle="tab" href=".tab-pane#tab-ETHEREUM" role="tab" aria-controls="tab-ETHEREUM"
+                           aria-selected="true">Ethereum</a>
+                        <a class="nav-item nav-link" id="nav-MATIC-tab" data-toggle="tab" href=".tab-pane#tab-MATIC" role="tab" aria-controls="tab-MATIC"
+                           aria-selected="true">Matic</a>
+                        <a class="nav-item nav-link" id="nav-VECHAIN-tab" data-toggle="tab" href=".tab-pane#tab-VECHAIN" role="tab" aria-controls="tab-VECHAIN"
+                           aria-selected="false">VeChain</a>
+                        <a class="nav-item nav-link" id="nav-LITECOIN-tab" data-toggle="tab"
+                           href=".tab-pane#tab-LITECOIN" role="tab" aria-controls="tab-LITECOIN"
+                           aria-selected="false">Litecoin</a>
+                        <a class="nav-item nav-link" id="nav-GOCHAIN-tab" data-toggle="tab" href=".tab-pane#tab-GOCHAIN"
+                           role="tab" aria-controls="tab-GOCHAIN"
+                           aria-selected="false">GoChain</a>
+                        <a class="nav-item nav-link" id="nav-TRON-tab" data-toggle="tab" href=".tab-pane#tab-TRON"
+                           role="tab" aria-controls="tab-TRON"
+                           aria-selected="false">Tron</a>
+                        <a class="nav-item nav-link" id="nav-AETERNITY-tab" data-toggle="tab"
+                           href=".tab-pane#tab-AETERNITY" role="tab" aria-controls="tab-AETERNITY"
+                           aria-selected="false">æternity</a>
+                        <a class="nav-item nav-link" id="nav-NEO-tab" data-toggle="tab" href=".tab-pane#tab-NEO"
+                           role="tab" aria-controls="tab-NEO"
+                           aria-selected="false">Neo</a>
+                        <a class="nav-item nav-link" id="nav-BSC-tab" data-toggle="tab" href=".tab-pane#tab-BSC"
+                           role="tab" aria-controls="tab-BSC"
+                           aria-selected="true">Binance SC</a>
+                        <a class="nav-item nav-link" id="nav-AVAC-tab" data-toggle="tab" href=".tab-pane#tab-AVAC"
+                           role="tab" aria-controls="tab-AVAC"
+                           aria-selected="true">Avalanche C</a>
+                        <a class="nav-item nav-link" id="nav-HEDERA-tab" data-toggle="tab" href=".tab-pane#tab-HEDERA" role="tab" aria-controls="tab-HEDERA"
+                           aria-selected="true">Hedera</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-ETHEREUM" data-chain="ETHEREUM" role="tabpanel" aria-labelledby="nav-ETHEREUM-tab">
+                        <!--<button type="button" data-chain="ETHEREUM" id="myBtn1" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "ETHEREUM" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-MATIC" data-chain="MATIC" role="tabpanel" aria-labelledby="nav-MATIC-tab">
+                        <!--<button type="button" data-chain="MATIC" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "MATIC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-GOCHAIN" data-chain="GOCHAIN" role="tabpanel" aria-labelledby="nav-GOCHAIN-tab">
+                        <!--<button type="button" data-chain="GOCHAIN" id="myBtn3" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "GOCHAIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-VECHAIN" data-chain="VECHAIN" role="tabpanel" aria-labelledby="nav-VECHAIN-tab">
+                        <!--<button type="button" data-chain="VECHAIN" id="myBtn4" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "VECHAIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-TRON" data-chain="TRON" role="tabpanel" aria-labelledby="nav-TRON-tab">
+                        <!--<button type="button" data-chain="TRON" id="myBtn5" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "TRON" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-BITCOIN" data-chain="BITCOIN" role="tabpanel" aria-labelledby="nav-BITCOIN-tab">
+                        <!--<button type="button" data-chain="BITCOIN" id="myBtn6" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "BITCOIN" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-LITECOIN" data-chain="LITECOIN" role="tabpanel" aria-labelledby="nav-LITECOIN-tab">
+                        
+                        <!--<button type="button" data-chain="LITECOIN" id="myBtn7" class="btn btn-outline-primary manage-wallets mb-3">
+                            Manage Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Wallet Type</th>
+                                <th>Wallet ID</th>
+                                <th>Wallet Address</th>
+                            </tr>
+                            {% for item in datacust %}
+                            <tr>
+                                {% if item.secrettype == "LITECOIN" %}
+                                <td>{{item.name}}</td>
+                                <td>{{item.wallettype}}</td>
+                                <td>{{item.walletid}}</td>
+                                <td>{{item.walletaddress}}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-AETERNITY" data-chain="AETERNITY" role="tabpanel" aria-labelledby="nav-AETERNITY-tab">
+                       
+                        <!--<button type="button" data-chain="AETERNITY" id="myBtn8" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "AETERNITY" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-NEO" data-chain="NEO" role="tabpanel" aria-labelledby="nav-NEO-tab">
+                        
+                        <!--<button type="button" data-chain="NEO" id="myBtn9" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "NEO" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-BSC" data-chain="BSC" role="tabpanel"
+                         aria-labelledby="nav-BSC-tab">
+                       
+                        <!--<button type="button" data-chain="BSC" id="myBtn10" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "BSC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-AVAC" data-chain="AVAC" role="tabpanel"
+                         aria-labelledby="nav-AVAC-tab">
+                        
+                        <!--<button type="button" data-chain="AVAC" id="myBtn11" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "AVAC" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-4 bg-white border" id="tab-HEDERA" id="myBtn12" data-chain="HEDERA" role="tabpanel"
+                         aria-labelledby="nav-HEDERA-tab">
+                        
+                        <!--<button type="button" data-chain="HEDERA" class="btn btn-outline-primary manage-wallets mb-3">
+                            Create Wallets
+                        </button>-->
+
+                        <div class="row">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Wallet Type</th>
+                                    <th>Wallet ID</th>
+                                    <th>Wallet Address</th>
+                                </tr>
+                                {% for item in datacust %}
+                                <tr>
+                                    {% if item.secrettype == "HEDERA" %}
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.wallettype}}</td>
+                                    <td>{{item.walletid}}</td>
+                                    <td>{{item.walletaddress}}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                            
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="sign-eip712" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="sign-message" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+<!--                            <div class="mb-3 col-lg-6">-->
+<!--                                <form data-form="execute-contract" data-chain="HEDERA" class="card bg-light"></form>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+<!--
+        </div>
+    </div>
+</div>
+-->

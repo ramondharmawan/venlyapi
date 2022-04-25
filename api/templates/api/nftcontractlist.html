@@ -1,0 +1,55 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> NFT Contract </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Deploy NFT</a></li>
+              <li class="breadcrumb-item active" aria-current="page">NFT Contract</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+
+          <div class="col-lg-12 stretch-card grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">NFT Contract Lists Deployment</h4>
+                <p class="card-description"> NFT contract Lists </p>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th> # </th>
+                      <th> Client </th>
+                      <th> Contract Id </th>
+                      <th> Symbol </th>
+                      <th> Transaction Hash </th>
+                      <th> Details </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in contractlist %}
+                    <tr class="table-info">
+                      <td> {{ forloop.counter }} </td>
+                      <td> {{i.owner_name}} </td>
+                      <td> {{i.contracts_id}} </td>
+                      <td> {{i.symbol}}</td>
+                      <td> {{i.hash}} </td>
+                      <td> <a href="{% url 'showresultcontract' pk=i.id %}">See More</a> </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+
+{% endblock maincontent %}

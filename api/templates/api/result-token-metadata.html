@@ -1,0 +1,388 @@
+{% extends 'api/main.html' %}
+{% load static %}
+{% block maincontent %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> NFT Token Meta </h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Info</a></li>
+            <li class="breadcrumb-item active" aria-current="page">NFT Token</li>
+          </ol>
+        </nav>
+      </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"> NFT Name </h4>
+                    {% if data_name is not none %}
+                    <p class="card-description"> <b>{{data.name}}</b> by <i>{{data_name}}</i></p>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <address class="text-success">
+
+                            <p class="font-weight-bold" {% if details.name is none %} style="display:none;" {% endif %}> 
+                              NFT Name
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.name }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.description is none %} style="display:none;" {% endif %}> 
+                                Description
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.description }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.image is none %} style="display:none;" {% endif %}> 
+                                Image URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.image }} 
+                              </p>
+                            
+                            <p class="font-weight-bold" {% if details.imagePreview is none %} style="display:none;" {% endif %}> 
+                                image Preview URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.imagePreview }} 
+                              </p>
+                            
+                            <p class="font-weight-bold" {% if details.imageThumbnail is none %} style="display:none;" {% endif %}> 
+                                Image Thumbnail URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.imageThumbnail }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.backgroundColor is none %} style="display:none;" {% endif %}> 
+                                Background Color
+                            </p>
+                                <p class="mb-2"> 
+                                  {{ details.backgroundColor }} 
+                                </p>
+                                
+                            <p class="font-weight-bold" {% if details.background_color is none %} style="display:none;" {% endif %}> 
+                                Background Color 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.background_color }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.animationUrl is none %} style="display:none;" {% endif %}> 
+                                Animation Url
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.animationUrl }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.animation_url is none %} style="display:none;" {% endif %}> 
+                                Animation Url 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.animation_url }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.externalUrl is none %} style="display:none;" {% endif %}> 
+                              External URL
+                            </p>
+                              <p class="mb-2"> 
+                                {{ details.externalUrl }} 
+                              </p>
+
+                            <p class="font-weight-bold" {% if details.external_url is none %} style="display:none;" {% endif %}> 
+                                External_URL 2
+                            </p>
+                                <p class="mb-2"> 
+                                  {{ details.external_url }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.animationUrls.type is none %} style="display:none;" {% endif %}> 
+                                Animation URL's
+                            </p>
+                              {% for item in items_animate %}
+                              <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}" 
+                              </p>
+                              {% endfor %}
+
+                            <p class="font-weight-bold" {% if details.attributes is none %} style="display:none;" {% endif %}> 
+                                Attributes
+                            </p>
+                              {% for item in items_atts %}
+                              <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Name: </label>
+                                "{{ item.name }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}"
+                              </p> 
+                              <p class="mb-2"> 
+                                <label>Trait Type: </label>
+                                "{{ item.traitType }}"
+                              </p> 
+                              <p class="mb-2"> 
+                                <label>Trait_Type: </label>
+                                "{{ item.trait_type }}"
+                              </p> <br> <br>
+                              {% endfor %}
+
+                            <p class="font-weight-bold" {% if details.properties is none %} style="display:none;" {% endif %}> 
+                                Properties
+                            </p>
+                              {% for item in items_props %}
+                              <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Name: </label>
+                                "{{ item.name }}" 
+                              </p>
+                              <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}"
+                              </p> 
+                              <p class="mb-2"> 
+                                <label>Trait Type: </label>
+                                "{{ item.traitType }}"
+                              </p> 
+                              <p class="mb-2"> 
+                                <label>Trait_Type: </label>
+                                "{{ item.trait_type }}"
+                              </p> <br> <br>
+                              {% endfor %}
+
+                            <!-- Contract -->
+                            <p class="font-weight-bold" {% if details.contract.address is none %} style="display:none;" {% endif %}> 
+                                Contract Wallet Address
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.address }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.contract.name is none %} style="display:none;" {% endif %}> 
+                                Contract Name
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.name }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.contract.symbol is none %} style="display:none;" {% endif %}> 
+                                Contract Symbol
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.symbol }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.contract.image is none %} style="display:none;" {% endif %}> 
+                                    Image URL
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.image }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.contract.imageUrl is none %} style="display:none;" {% endif %}> 
+                                    Image URL 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.imageUrl }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.contract.image_url is none %} style="display:none;" {% endif %}> 
+                                Image URL 3
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.image_url }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.contract.description is none %} style="display:none;" {% endif %}> 
+                                Contract Description
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.description }} 
+                                </p>
+        
+                            <p class="font-weight-bold" {% if details.contract.externalLink is none %} style="display:none;" {% endif %}> 
+                                External Link
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.externalLink }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.contract.external_link is none %} style="display:none;" {% endif %}> 
+                                External Link 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.external_link }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.contract.externalUrl is none %} style="display:none;" {% endif %}> 
+                                External URL
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.externalUrl }} 
+                                </p>
+    
+                            <p class="font-weight-bold" {% if details.contract.external_url is none %} style="display:none;" {% endif %}> 
+                                External URL 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.external_url }} 
+                                </p>
+                            
+                            <p class="font-weight-bold" {% if details.contract.media is none %} style="display:none;" {% endif %}> 
+                                Contract Media
+                            </p>
+                                {% for item in items_conme %}
+                                <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                                </p>
+                                <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}" 
+                                </p>
+                                {% endfor %}
+                            
+                            <p class="font-weight-bold" {% if details.contract.type is none %} style="display:none;" {% endif %}> 
+                                Contract Token Type
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.contract.type }} 
+                                </p>
+
+                            <!-- Assets Contract -->
+                            <p class="font-weight-bold" {% if details.asset_contract.address is none %} style="display:none;" {% endif %}> 
+                                Asset Contract Wallet Address
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.address }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.asset_contract.name is none %} style="display:none;" {% endif %}> 
+                                Asset Contract Name
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.name }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.asset_contract.symbol is none %} style="display:none;" {% endif %}> 
+                                Asset Contract Symbol
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.symbol }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.asset_contract.image is none %} style="display:none;" {% endif %}> 
+                                    Asset Image URL
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.image }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.asset_contract.imageUrl is none %} style="display:none;" {% endif %}> 
+                                    Asset Image URL 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.imageUrl }} 
+                                </p>
+      
+                            <p class="font-weight-bold" {% if details.asset_contract.image_url is none %} style="display:none;" {% endif %}> 
+                                Asset Image URL 3
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.image_url }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.asset_contract.description is none %} style="display:none;" {% endif %}> 
+                                Asset Contract Description
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.description }} 
+                                </p>
+        
+                            <p class="font-weight-bold" {% if details.asset_contract.externalLink is none %} style="display:none;" {% endif %}> 
+                                Asset External Link
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.externalLink }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.asset_contract.external_link is none %} style="display:none;" {% endif %}> 
+                                Asset External Link 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.external_link }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.asset_contract.externalUrl is none %} style="display:none;" {% endif %}> 
+                                Asset External URL
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.externalUrl }} 
+                                </p>
+    
+                            <p class="font-weight-bold" {% if details.asset_contract.external_url is none %} style="display:none;" {% endif %}> 
+                                Asset External URL 2
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.external_url }} 
+                                </p>
+                            
+                            <p class="font-weight-bold" {% if details.asset_contract.media is none %} style="display:none;" {% endif %}> 
+                                Contract Media
+                            </p>
+                                {% for item in items_asconme %}
+                                <p class="mb-2"> 
+                                <label>Type: </label>
+                                "{{ item.type }}" 
+                                </p>
+                                <p class="mb-2"> 
+                                <label>Value: </label>
+                                "{{ item.value }}" 
+                                </p>
+                                {% endfor %}
+                            
+                            <p class="font-weight-bold" {% if details.asset_contract.type is none %} style="display:none;" {% endif %}> 
+                                Asset Contract Token Type
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.asset_contract.type }} 
+                                </p>
+
+                            <p class="font-weight-bold" {% if details.fungible is none %} style="display:none;" {% endif %}> 
+                                Fungible
+                            </p>
+                                <p class="mb-2"> 
+                                    {{ details.fungible }} 
+                                </p>
+
+                            {% else %}
+                                <p> Data Empty </p>  
+                            {% endif %}
+                            </address>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock maincontent %}
